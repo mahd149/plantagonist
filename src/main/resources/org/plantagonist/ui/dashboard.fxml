@@ -7,7 +7,13 @@
         <HBox spacing="12">
             <TitledPane text="Upcoming Tasks"><ListView fx:id="taskList"/></TitledPane>
             <TitledPane text="Streaks &amp; Badges"><ListView fx:id="streakList"/></TitledPane>
-            <TitledPane text="Weather Suggestion"><Label fx:id="weatherAdvice"/></TitledPane>
+<!--            <TitledPane text="Weather Suggestion"><Label fx:id="weatherAdvice"/></TitledPane>-->
+            <TitledPane text="Weather Suggestion">
+                <content>
+                    <Label fx:id="weatherAdvice" />
+                </content>
+            </TitledPane>
+
         </HBox>
     </children>
 </VBox>

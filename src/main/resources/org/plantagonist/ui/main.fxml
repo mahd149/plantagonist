@@ -12,6 +12,8 @@
             <Button text="Care Log" onAction="#goCareLog" />
             <Button text="Supplies" onAction="#goSupplies" />
             <Button text="Settings" onAction="#goSettings" />
+            <Button text="Diagnostics" onAction="#runDiagnostics"/>
+
             <Pane HBox.hgrow="ALWAYS" />
             <Label text="Plantagonist" />
         </ToolBar>
