@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<VBox xmlns:fx="http://javafx.com/fxml" spacing="12" fx:controller="org.plantagonist.ui.CareLogController">
+    <children>
+        <HBox spacing="8">
+            <ComboBox fx:id="plantPicker"/>
+            <DatePicker fx:id="datePicker"/>
+            <TextField fx:id="moistureField" promptText="Soil moisture %"/>
+            <TextField fx:id="fertField" promptText="Fertilizer (ml)"/>
+            <Button text="Log" onAction="#logEntry"/>
+        </HBox>
+        <TableView fx:id="logTable"/>
+    </children>
+</VBox>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<VBox xmlns:fx="http://javafx.com/fxml" spacing="12" fx:controller="org.plantagonist.ui.PlantsController">
+    <children>
+        <HBox spacing="8">
+            <TextField fx:id="searchField" promptText="Search plants by name"/>
+            <Button text="Add Plant" onAction="#addPlant"/>
+        </HBox>
+        <TableView fx:id="plantTable" prefHeight="500"/>
+    </children>
+</VBox>

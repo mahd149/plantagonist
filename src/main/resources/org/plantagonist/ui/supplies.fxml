@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<VBox xmlns:fx="http://javafx.com/fxml" spacing="12" fx:controller="org.plantagonist.ui.SuppliesController">
+    <children>
+        <HBox spacing="8">
+            <TextField fx:id="itemField" promptText="Supply item"/>
+            <TextField fx:id="qtyField" promptText="Qty"/>
+            <TextField fx:id="thresholdField" promptText="Refill below"/>
+            <Button text="Add" onAction="#addSupply"/>
+        </HBox>
+        <TableView fx:id="suppliesTable"/>
+    </children>
+</VBox>

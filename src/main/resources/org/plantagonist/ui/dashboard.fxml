@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<VBox xmlns:fx="http://javafx.com/fxml" spacing="12" fx:controller="org.plantagonist.ui.DashboardController">
+    <children>
+        <Label text="🌱 Today" styleClass="h1"/>
+        <HBox spacing="12">
+            <TitledPane text="Upcoming Tasks"><ListView fx:id="taskList"/></TitledPane>
+            <TitledPane text="Streaks &amp; Badges"><ListView fx:id="streakList"/></TitledPane>
+            <TitledPane text="Weather Suggestion"><Label fx:id="weatherAdvice"/></TitledPane>
+        </HBox>
+    </children>
+</VBox>

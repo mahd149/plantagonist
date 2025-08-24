@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<VBox xmlns:fx="http://javafx.com/fxml" spacing="12" fx:controller="org.plantagonist.ui.SettingsController">
+    <children>
+        <Label text="Settings" styleClass="h1"/>
+        <TextField fx:id="cityField" promptText="City (for weather)"/>
+        <ChoiceBox fx:id="unitsChoice"/>
+        <Button text="Save" onAction="#saveSettings"/>
+    </children>
+</VBox>

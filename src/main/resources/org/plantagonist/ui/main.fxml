@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
+
+
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="org.plantagonist.ui.MainController">
+    <top>
+        <ToolBar>
+            <Button text="Dashboard" onAction="#goDashboard" />
+            <Button text="Plants" onAction="#goPlants" />
+            <Button text="Care Log" onAction="#goCareLog" />
+            <Button text="Supplies" onAction="#goSupplies" />
+            <Button text="Settings" onAction="#goSettings" />
+            <Pane HBox.hgrow="ALWAYS" />
+            <Label text="Plantagonist" />
+        </ToolBar>
+    </top>
+    <center>
+        <StackPane fx:id="content" />
+    </center>
+    <padding><Insets top="8" right="8" bottom="8" left="8"/></padding>
+</BorderPane>
