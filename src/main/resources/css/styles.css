@@ -218,6 +218,26 @@
     -fx-background-radius: -radius-pill;
 }
 
+
+/* Force light text inside the task list on dark surfaces */
+.light-list .list-cell,
+.light-list .list-cell .label,
+.light-list .list-cell .text {
+    -fx-text-fill: -color-text;
+}
+
+/* Keep text light when selected */
+.light-list .list-cell:selected,
+.light-list .list-cell:selected .label,
+.light-list .list-cell:selected .text {
+    -fx-text-fill: -color-text;
+}
+
+/* Placeholder message ("No tasks…") */
+.light-list .placeholder .label {
+    -fx-text-fill: -color-subtext;
+}
+
 /* =========
    UTILS
    ========= */
