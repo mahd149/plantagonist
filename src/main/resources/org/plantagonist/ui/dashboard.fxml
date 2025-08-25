@@ -1,19 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
-<VBox xmlns:fx="http://javafx.com/fxml" spacing="12" fx:controller="org.plantagonist.ui.DashboardController">
-    <children>
-        <Label text="🌱 Today" styleClass="h1"/>
-        <HBox spacing="12">
-            <TitledPane text="Upcoming Tasks"><ListView fx:id="taskList"/></TitledPane>
-            <TitledPane text="Streaks &amp; Badges"><ListView fx:id="streakList"/></TitledPane>
-<!--            <TitledPane text="Weather Suggestion"><Label fx:id="weatherAdvice"/></TitledPane>-->
-            <TitledPane text="Weather Suggestion">
-                <content>
-                    <Label fx:id="weatherAdvice" />
-                </content>
-            </TitledPane>
+<?import javafx.scene.layout.*?>
 
-        </HBox>
-    </children>
-</VBox>
+<!-- Root is now a ScrollPane -->
+<ScrollPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.plantagonist.ui.DashboardController"
+            fitToWidth="true"
+            pannable="false"
+            vbarPolicy="AS_NEEDED" hbarPolicy="NEVER"
+            styleClass="content-area">
+    <content>
+        <!-- Page content -->
+        <VBox spacing="14" styleClass="pad-16">
+            <!-- Header -->
+            <HBox spacing="10">
+                <Label text="🌱 Today" styleClass="h1"/>
+                <Label text="Plant care at a glance" styleClass="subtle"/>
+                <Pane HBox.hgrow="ALWAYS"/>
+                <Label text="LIVE" styleClass="badge"/>
+            </HBox>
+
+            <!-- Cards grid -->
+            <FlowPane hgap="12" vgap="12" styleClass="grid-12">
+                <!-- Weather Suggestion -->
+                <VBox spacing="8" prefWidth="360" styleClass="card card-tonal">
+                    <Label text="Weather Suggestion" styleClass="card-header"/>
+                    <Label fx:id="weatherAdvice" wrapText="true" styleClass="card-body"/>
+                    <HBox spacing="8">
+                        <Label text="Auto‑detected" styleClass="badge"/>
+                    </HBox>
+                </VBox>
+
+                <!-- Upcoming Tasks -->
+                <VBox spacing="10" prefWidth="360" styleClass="card">
+                    <Label text="Upcoming Tasks" styleClass="card-header"/>
+                    <!-- Keep list heights reasonable to avoid inner scrollbars taking over -->
+                    <ListView fx:id="taskList" prefHeight="220" maxHeight="240"/>
+                    <HBox spacing="8">
+                        <Button text="Add Task" styleClass="nav-btn"/>
+                        <Pane HBox.hgrow="ALWAYS"/>
+                        <Label text="Today" styleClass="badge"/>
+                    </HBox>
+                </VBox>
+
+                <!-- Streaks & Badges -->
+                <VBox spacing="10" prefWidth="360" styleClass="card">
+                    <Label text="Streaks &amp; Badges" styleClass="card-header"/>
+                    <ListView fx:id="streakList" prefHeight="220" maxHeight="240"/>
+                    <HBox spacing="8">
+                        <Label text="Keep it up!" styleClass="subtle"/>
+                    </HBox>
+                </VBox>
+            </FlowPane>
+        </VBox>
+    </content>
+</ScrollPane>

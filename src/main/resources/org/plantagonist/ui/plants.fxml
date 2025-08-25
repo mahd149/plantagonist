@@ -1,12 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
-<VBox xmlns:fx="http://javafx.com/fxml" spacing="12" fx:controller="org.plantagonist.ui.PlantsController">
-    <children>
-        <HBox spacing="8">
-            <TextField fx:id="searchField" promptText="Search plants by name"/>
-            <Button text="Add Plant" onAction="#addPlant"/>
-        </HBox>
-        <TableView fx:id="plantTable" prefHeight="500"/>
-    </children>
-</VBox>
+<?import javafx.scene.layout.*?>
+
+<!-- Root scroll container -->
+<ScrollPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.plantagonist.ui.PlantsController"
+            fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED">
+    <content>
+        <VBox spacing="14" styleClass="pad-16">
+            <!-- Header -->
+            <HBox spacing="10">
+                <Label text="🪴 Plants" styleClass="h1"/>
+                <Label text="Your collection at a glance" styleClass="subtle"/>
+                <Pane HBox.hgrow="ALWAYS"/>
+                <Button text="Add Plant" onAction="#addPlant" styleClass="accent-btn pill"/>
+            </HBox>
+
+            <!-- Search -->
+            <HBox spacing="10">
+                <TextField fx:id="searchField" promptText="Search by name or species…" HBox.hgrow="ALWAYS"/>
+                <Button text="Refresh" onAction="#reload" styleClass="nav-btn"/>
+            </HBox>
+
+            <!-- Cards grid (3 per row via preferred card width + wrapping) -->
+            <FlowPane fx:id="grid" hgap="12" vgap="12" styleClass="grid-12">
+                <!-- Cards are added dynamically from controller -->
+            </FlowPane>
+        </VBox>
+    </content>
+</ScrollPane>

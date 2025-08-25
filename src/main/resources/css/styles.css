@@ -1,0 +1,226 @@
+/* =========
+   PALETTE
+   ========= */
+.app-root {
+    /* Bottle green primary, near-black text, soft white background */
+    -color-bg:        #0E0F10;      /* app background */
+    -color-surface:   #121416;      /* cards / toolbar */
+    -color-elev-1:    #171A1D;
+    -color-stroke:    #24282D;
+
+    -color-primary:   #1A4D2E;      /* bottle green */
+    -color-primary-2: #23633C;      /* hover */
+    -color-primary-3: #2F7C4D;      /* active */
+
+    -color-text:      #F2F5F7;      /* primary text */
+    -color-subtext:   #B7C0C7;      /* secondary text */
+    -color-muted:     #8B949E;      /* muted/disabled */
+
+    -radius-squircle: 18px;         /* “flat squircle” = high radius w/ no bevels */
+    -radius-pill:     999px;
+
+    -shadow-1: dropshadow(gaussian, rgba(0,0,0,0.35), 18, 0.12, 0, 4);
+    -shadow-2: dropshadow(gaussian, rgba(0,0,0,0.45), 26, 0.16, 0, 6);
+}
+
+.app-root {
+    -fx-background-color: -color-bg;
+    -fx-font-smoothing-type: gray;
+}
+
+/* =========
+   TOOLBAR
+   ========= */
+.app-toolbar {
+    -fx-background-color: -color-surface;
+    -fx-padding: 10 14;
+    -fx-spacing: 10;
+    -fx-background-insets: 0;
+    -fx-effect: -shadow-1;
+    -fx-border-color: transparent transparent -color-stroke transparent;
+    -fx-border-width: 0 0 1 0;
+}
+
+.app-title {
+    -fx-text-fill: -color-text;
+    -fx-font-size: 18px;
+    -fx-font-weight: 700;
+    -fx-padding: 0 8 0 2;
+}
+
+.spacer-sep {
+    -fx-opacity: 0.0; /* Invisible; used just to push spacing visually after the title */
+}
+
+/* =========
+   NAV BUTTONS
+   ========= */
+.nav-btn {
+    -fx-background-color: transparent;
+    -fx-text-fill: -color-subtext;
+    -fx-font-size: 13px;
+    -fx-padding: 8 12;
+    -fx-background-radius: -radius-squircle;
+    -fx-border-radius: -radius-squircle;
+    -fx-border-color: transparent;
+}
+.nav-btn:hover {
+    -fx-background-color: rgba(255,255,255,0.05);
+    -fx-text-fill: -color-text;
+}
+.nav-btn:armed, .nav-btn:pressed, .nav-btn:focused {
+    -fx-background-color: rgba(255,255,255,0.08);
+    -fx-text-fill: -color-text;
+}
+
+/* Accent call-to-action (Diagnostics, etc.) */
+.accent-btn {
+    -fx-background-color: -color-primary;
+    -fx-text-fill: white;
+    -fx-font-weight: 600;
+    -fx-padding: 8 14;
+    -fx-background-radius: -radius-squircle;
+    -fx-effect: -shadow-1;
+    -fx-border-color: transparent;
+}
+.accent-btn:hover {
+    -fx-background-color: -color-primary-2;
+}
+.accent-btn:pressed {
+    -fx-background-color: -color-primary-3;
+}
+
+/* Pills */
+.pill {
+    -fx-background-radius: -radius-pill;
+}
+
+/* =========
+   CONTENT AREA
+   ========= */
+.content-area {
+    -fx-background-color: -color-bg;
+    -fx-padding: 14;
+}
+
+/* =========
+   HEADINGS, TEXT
+   ========= */
+.h1      { -fx-font-size: 22px; -fx-font-weight: 800; -fx-text-fill: -color-text; }
+.h2      { -fx-font-size: 18px; -fx-font-weight: 700; -fx-text-fill: -color-text; }
+.subtle  { -fx-text-fill: -color-subtext; }
+.muted   { -fx-text-fill: -color-muted; }
+.kicker  { -fx-text-fill: -color-primary-3; -fx-font-size: 11px; -fx-font-weight: 700; }
+
+/* =========
+   CARDS (flat squircle)
+   ========= */
+.card {
+    -fx-background-color: -color-elev-1;
+    -fx-background-radius: -radius-squircle;
+    -fx-border-radius: -radius-squircle;
+    -fx-border-color: -color-stroke;
+    -fx-border-width: 1;
+    -fx-padding: 14;
+    -fx-effect: -shadow-1;
+}
+.card:hover {
+    -fx-effect: -shadow-2;
+}
+.card-header {
+    -fx-padding: 0 0 8 0;
+    -fx-text-fill: -color-text;
+    -fx-font-size: 14px;
+    -fx-font-weight: 700;
+}
+.card-body {
+    -fx-text-fill: -color-subtext;
+    -fx-font-size: 12.5px;
+    -fx-line-spacing: 2px;
+}
+.card-tonal {
+    -fx-background-color: linear-gradient(to bottom, #16211B, #0F1712);
+}
+
+/* =========
+   FORM CONTROLS
+   ========= */
+.text-field, .password-field, .combo-box-base, .date-picker {
+    -fx-background-radius: -radius-squircle;
+    -fx-background-insets: 0;
+    -fx-background-color: -color-surface;
+    -fx-text-fill: -color-text;
+    -fx-prompt-text-fill: -color-muted;
+    -fx-border-color: -color-stroke;
+    -fx-border-width: 1;
+    -fx-border-radius: -radius-squircle;
+    -fx-padding: 8 10;
+}
+.text-field:focused, .password-field:focused, .combo-box-base:focused, .date-picker:focused {
+    -fx-border-color: -color-primary-3;
+    -fx-effect: dropshadow(gaussian, rgba(47,124,77,0.32), 16, 0.12, 0, 3);
+}
+
+.check-box .box, .radio-button .radio {
+    -fx-background-color: -color-surface;
+    -fx-border-color: -color-stroke;
+}
+.check-box:selected .mark, .radio-button:selected .dot {
+    -fx-background-color: -color-primary-3;
+}
+
+/* =========
+   TABLES / LISTS
+   ========= */
+.table-view, .list-view {
+    -fx-background-color: -color-elev-1;
+    -fx-background-insets: 0;
+    -fx-border-color: -color-stroke;
+    -fx-border-width: 1;
+    -fx-background-radius: -radius-squircle;
+    -fx-border-radius: -radius-squircle;
+}
+.table-row-cell, .list-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: -color-text;
+    -fx-cell-size: 38px;
+}
+.table-row-cell:odd, .list-cell:odd {
+    -fx-background-color: rgba(255,255,255,0.02);
+}
+.table-row-cell:selected, .list-cell:selected {
+    -fx-background-color: rgba(26,77,46,0.35);
+}
+
+/* =========
+   SCROLL PANE
+   ========= */
+.scroll-pane {
+    -fx-background-color: transparent;
+}
+.scroll-pane > .viewport {
+    -fx-background-color: transparent;
+}
+.scroll-bar:vertical .thumb, .scroll-bar:horizontal .thumb {
+    -fx-background-color: #2B2F34;
+    -fx-background-radius: 10;
+}
+
+/* =========
+   BADGES / CHIPS
+   ========= */
+.badge {
+    -fx-background-color: rgba(42, 121, 74, 0.25);
+    -fx-text-fill: #9EDBB5;
+    -fx-font-size: 11px;
+    -fx-font-weight: 700;
+    -fx-padding: 3 8;
+    -fx-background-radius: -radius-pill;
+}
+
+/* =========
+   UTILS
+   ========= */
+.grid-12 { -fx-hgap: 12; -fx-vgap: 12; }
+.pad-12  { -fx-padding: 12; }
+.pad-16  { -fx-padding: 16; }

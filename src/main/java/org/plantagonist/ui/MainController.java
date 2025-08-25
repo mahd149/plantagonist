@@ -14,23 +14,34 @@ import com.google.gson.Gson;
 
 import java.nio.file.Files;
 
-
-
 public class MainController {
     @FXML private StackPane content;
 
+    @FXML
+    public void initialize() {
+        // Attach stylesheet once the Scene exists:
+        content.sceneProperty().addListener((obs, oldScene, newScene) -> {
+            if (newScene != null) {
+                var url = getClass().getResource("/css/styles.css");
+                if (url != null) {
+                    var css = url.toExternalForm();
+                    if (!newScene.getStylesheets().contains(css)) {
+                        newScene.getStylesheets().add(css);
+                    }
+                } else {
+                    System.err.println("⚠ styles.css not found at /css/styles.css");
+                }
+            }
+        });
 
-    @FXML public void initialize() {
         goDashboard();
     }
-
 
     public void goDashboard() { setCenter("dashboard.fxml"); }
     public void goPlants() { setCenter("plants.fxml"); }
     public void goCareLog() { setCenter("care_log.fxml"); }
     public void goSupplies() { setCenter("supplies.fxml"); }
     public void goSettings() { setCenter("settings.fxml"); }
-
 
     private void setCenter(String fxml) {
         try {
@@ -40,6 +51,7 @@ public class MainController {
             e.printStackTrace();
         }
     }
+
     @FXML
     public void runDiagnostics() {
         String city = loadCityOrDefault();
@@ -86,5 +98,4 @@ public class MainController {
         } catch (Exception ignored) {}
         return "Dhaka";
     }
-
 }
