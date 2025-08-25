@@ -11,7 +11,7 @@
 
 <!-- Root scroll container -->
 
-<ScrollPane fitToWidth="true" hbarPolicy="NEVER" prefHeight="82.0" prefWidth="658.0" vbarPolicy="AS_NEEDED" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/24.0.1" fx:controller="org.plantagonist.ui.PlantsController">
+<ScrollPane fitToWidth="true" hbarPolicy="NEVER" prefHeight="82.0" prefWidth="658.0" vbarPolicy="AS_NEEDED" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.plantagonist.ui.PlantsController">
     <content>
         <VBox spacing="14" styleClass="pad-16">
             <!-- Header -->
