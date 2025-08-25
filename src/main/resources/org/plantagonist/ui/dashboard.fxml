@@ -22,7 +22,7 @@
             </HBox>
 
             <!-- Cards grid -->
-            <FlowPane hgap="12" vgap="12" styleClass="grid-12">
+            <FlowPane hgap="12" vgap="20" styleClass="grid-12">
                 <!-- Weather Suggestion -->
                 <VBox spacing="8" prefWidth="360" styleClass="card card-tonal">
                     <Label text="Weather Suggestion" styleClass="card-header"/>
@@ -33,10 +33,10 @@
                 </VBox>
 
                 <!-- Upcoming Tasks -->
-                <VBox spacing="10" prefWidth="360" styleClass="card">
+                <VBox spacing="10" prefWidth="400" styleClass="card">
                     <Label text="Upcoming Tasks" styleClass="card-header"/>
                     <!-- Keep list heights reasonable to avoid inner scrollbars taking over -->
-                    <ListView fx:id="taskList" prefHeight="220" maxHeight="240"/>
+                    <ListView fx:id="taskList" prefHeight="220" maxHeight="240" styleClass="light-list"/>
                     <HBox spacing="8">
                         <Button text="Add Task" styleClass="nav-btn"/>
                         <Pane HBox.hgrow="ALWAYS"/>
@@ -45,7 +45,7 @@
                 </VBox>
 
                 <!-- Streaks & Badges -->
-                <VBox spacing="10" prefWidth="360" styleClass="card">
+                <VBox spacing="10" prefWidth="400" styleClass="card">
                     <Label text="Streaks &amp; Badges" styleClass="card-header"/>
                     <ListView fx:id="streakList" prefHeight="220" maxHeight="240"/>
                     <HBox spacing="8">
