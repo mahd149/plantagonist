@@ -117,8 +117,8 @@
    ========= */
 .card {
     -fx-background-color: -color-elev-1;
-    -fx-background-radius: -radius-squircle;
-    -fx-border-radius: -radius-squircle;
+    -fx-background-radius:18px;
+    -fx-border-radius: 18px;
     -fx-border-color: -color-stroke;
     -fx-border-width: 1;
     -fx-padding: 14;
