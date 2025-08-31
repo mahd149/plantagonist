@@ -21,12 +21,12 @@ public class PlantRepository extends BaseRepository<Plant> {
     public long deleteById(String id) { return super.deleteById(id, Plant::getId); }
 
     /** Replace using the id inside the plant */
-    public void replaceById(Plant p) {
-        if (p.getId() == null || p.getId().isBlank()) {
-            throw new IllegalArgumentException("Plant id is required for replace");
-        }
-        super.replace(p, p.getId(), Plant::getId);
-    }
+//    public void replaceById(Plant p) {
+//        if (p.getId() == null || p.getId().isBlank()) {
+//            throw new IllegalArgumentException("Plant id is required for replace");
+//        }
+//        super.replace(p, p.getId(), Plant::getId);
+//    }
 
     /** Replace using an explicit id (useful when editing a copy) */
     public void replaceById(String id, Plant p) {
