@@ -188,7 +188,12 @@ public class DashboardController {
                 title.setText(plant + " • " + when);
                 title.setStyle("-fx-font-size: 12px; -fx-text-fill: -color-text;");
 
-                done.setOnAction(e -> markDoneSafe(t.getId(), t.getPlantId()));
+                done.setOnAction(e -> {
+                    System.out.println("[UI] Done clicked for task " + t.getId() + " (" + t.getPlantName() + ")");
+                    markDoneSafe(t);   // NOTE: pass the task, not just ids
+                });
+
+
                 setText(null); setGraphic(root);
             }
         });
@@ -197,15 +202,20 @@ public class DashboardController {
     private void loadTasks() {
         List<CareTask> items = taskRepo.findDueOrUpcoming();
 
+        // Filter out DONE here defensively in case the repo doesn’t.
+        List<CareTask> active = items.stream()
+                .filter(t -> !"DONE".equalsIgnoreCase(Objects.toString(t.getStatus(), "")))
+                .collect(Collectors.toList());
+
         Comparator<CareTask> cmp = Comparator
                 .comparing((CareTask t) -> {
-                    String s = t.getStatus();
-                    boolean dueish = "DUE".equals(s) || "TODAY".equals(s);
+                    String s = Objects.toString(t.getStatus(), "");
+                    boolean dueish = "DUE".equalsIgnoreCase(s) || "TODAY".equalsIgnoreCase(s);
                     return dueish ? 0 : 1;
                 })
                 .thenComparing(t -> t.getDueDate() == null ? LocalDate.MAX : t.getDueDate());
 
-        List<CareTask> sortedTasks = items.stream().sorted(cmp).collect(Collectors.toList());
+        List<CareTask> sortedTasks = active.stream().sorted(cmp).collect(Collectors.toList());
         taskList.getItems().setAll(sortedTasks);
 
         // Update task count
@@ -214,6 +224,7 @@ public class DashboardController {
             taskCount.setText(count == 1 ? "1 task" : count + " tasks");
         }
     }
+
 
     private void loadPlants() {
         try {
@@ -436,26 +447,45 @@ public class DashboardController {
         return null;
     }
 
-    private void markDoneSafe(String taskId, String plantId) {
-        if (taskId == null || taskId.isBlank()) {
+    private void markDoneSafe(CareTask task) {
+        if (task == null || task.getId() == null || task.getId().isBlank()) {
             showError("Task missing id", "Cannot update a task without an id.");
             return;
         }
+        final String taskId  = task.getId();
+        final String plantId = task.getPlantId();
+
+        // Optimistic UI
+        taskList.getItems().removeIf(x -> Objects.equals(x.getId(), taskId));
+        if (taskCount != null) {
+            int c = taskList.getItems().size();
+            taskCount.setText(c == 1 ? "1 task" : c + " tasks");
+        }
+
         try {
+            // 1) Mark DONE in DB (now hits _id)
             taskRepo.updateStatus(taskId, "DONE");
 
+            // 2) Persist lastWatered BEFORE rescheduling
             if (plantId != null && !plantId.isBlank()) {
                 Plant p = plantRepo.findById(plantId);
                 if (p != null) {
                     p.setLastWatered(LocalDate.now());
-                    plantRepo.replaceById(p);
+                    plantRepo.replaceById(p.getId(), p); // uses _id filter via BaseRepository
                 }
             }
 
+            // 3) Recompute tasks (will delete WATER and insert next by lastWatered)
             taskService.syncAllWaterTasks();
+
+            // 4) Reload (defensively filters DONE anyway)
             loadTasks();
+            updateTimestamp();
+
         } catch (Exception ex) {
+            ex.printStackTrace();
             showError("Failed to mark task done", ex.getClass().getSimpleName() + ": " + ex.getMessage());
+            loadTasks();
         }
     }
 

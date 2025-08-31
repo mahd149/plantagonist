@@ -46,8 +46,14 @@ public class CareTaskRepository extends BaseRepository<CareTask> {
     public void replaceById(String id, CareTask t) { super.replace(t, id, CareTask::getId); }
 
     /** Light‑weight status update (no full replace) */
+    // CareTaskRepository.java
     public void updateStatus(String id, String status) {
-        coll.updateOne(Filters.eq("id", id), Updates.set("status", status));
+        var result = coll.updateOne(Filters.eq("_id", id), Updates.set("status", status));
+        System.out.println("[DB] updateStatus _id=" + id +
+                " matched=" + result.getMatchedCount() +
+                " modified=" + result.getModifiedCount());
     }
+
+
 
 }
