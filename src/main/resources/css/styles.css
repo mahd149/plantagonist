@@ -16,7 +16,7 @@
     -color-subtext:   #B7C0C7;      /* secondary text */
     -color-muted:     #8B949E;      /* muted/disabled */
 
-    -radius-squircle: 18px;         /* “flat squircle” = high radius w/ no bevels */
+    -radius-squircle: 18px;         /* "flat squircle" = high radius w/ no bevels */
     -radius-pill:     999px;
 
     -shadow-1: dropshadow(gaussian, rgba(0,0,0,0.35), 18, 0.12, 0, 4);
@@ -244,3 +244,63 @@
 .grid-12 { -fx-hgap: 12; -fx-vgap: 12; }
 .pad-12  { -fx-padding: 12; }
 .pad-16  { -fx-padding: 16; }
+
+/* =========
+   PLANT CARDS (matching your dark theme)
+   ========= */
+.plants-section {
+    -fx-background-color: transparent;
+}
+
+.plants-scroll {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.plants-grid {
+    -fx-background-color: transparent;
+    -fx-padding: 8;
+}
+
+.plant-card {
+    -fx-background-color: -color-elev-1;
+    -fx-background-radius: -radius-squircle;
+    -fx-border-radius: -radius-squircle;
+    -fx-border-color: -color-stroke;
+    -fx-border-width: 1;
+    -fx-effect: -shadow-1;
+    -fx-cursor: hand;
+    -fx-padding: 12;
+}
+
+.plant-card:hover,
+.plant-card.card-hover {
+    -fx-effect: -shadow-2;
+    -fx-translate-y: -2;
+}
+
+.plant-image-container {
+    -fx-background-color: -color-surface;
+    -fx-background-radius: 12;
+    -fx-border-radius: 12;
+    -fx-border-color: -color-stroke;
+    -fx-border-width: 1;
+}
+
+.plant-name {
+    -fx-font-size: 14px;
+    -fx-font-weight: 600;
+    -fx-text-fill: -color-text;
+    -fx-text-alignment: center;
+}
+
+.plant-species {
+    -fx-font-size: 12px;
+    -fx-text-fill: -color-subtext;
+    -fx-text-alignment: center;
+}
+
+.text-center {
+    -fx-text-alignment: center;
+    -fx-alignment: center;
+}

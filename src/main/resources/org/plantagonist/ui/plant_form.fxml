@@ -6,88 +6,147 @@
 
 <BorderPane xmlns:fx="http://javafx.com/fxml"
             fx:controller="org.plantagonist.ui.PlantFormController"
-            prefWidth="540" styleClass="card pad-16">
+            prefWidth="560" prefHeight="680"
+            styleClass="app-root">
 
-    <!-- Header -->
-    <top>
-        <VBox spacing="6" BorderPane.alignment="CENTER_LEFT">
-            <Label fx:id="title" text="Add Plant" styleClass="card-header"/>
-            <Label text="Keep details concise. You can edit anytime." styleClass="subtle"/>
-        </VBox>
-    </top>
-
-    <!-- Main form -->
+    <!-- Main container with card styling -->
     <center>
-        <GridPane hgap="12" vgap="12">
-            <columnConstraints>
-                <ColumnConstraints percentWidth="38"/>
-                <ColumnConstraints percentWidth="62"/>
-            </columnConstraints>
+        <VBox spacing="0" styleClass="card" style="-fx-max-width: 520px; -fx-alignment: center;">
 
-            <!-- Name -->
-            <Label text="Name" GridPane.rowIndex="0"/>
-            <VBox spacing="6" GridPane.rowIndex="0" GridPane.columnIndex="1">
-                <TextField fx:id="nameField" promptText="e.g., Monstera Deliciosa"/>
-                <Label text="Required" styleClass="subtle"/>
+            <!-- Header Section -->
+            <VBox spacing="8" styleClass="pad-16" style="-fx-padding: 20 24 16 24;">
+                <Label fx:id="title" text="Add Plant" styleClass="h2"/>
+                <Label text="Keep details concise. You can edit anytime." styleClass="subtle"/>
+                <Separator styleClass="separator" style="-fx-background-color: -color-stroke; -fx-pref-height: 1;"/>
             </VBox>
 
-            <!-- Species -->
-            <Label text="Species" GridPane.rowIndex="1"/>
-            <VBox spacing="6" GridPane.rowIndex="1" GridPane.columnIndex="1">
-                <TextField fx:id="speciesField" promptText="e.g., Ficus elastica"/>
-                <Label text="Optional • Helps with care suggestions" styleClass="subtle"/>
-            </VBox>
+            <!-- Form Content -->
+            <ScrollPane fitToWidth="true" style="-fx-background-color: transparent; -fx-border-color: transparent;">
+                <content>
+                    <VBox spacing="20" styleClass="pad-16" style="-fx-padding: 0 24 20 24;">
 
-            <!-- Water cadence -->
-            <Label text="Water every (days)" GridPane.rowIndex="2"/>
-            <VBox spacing="6" GridPane.rowIndex="2" GridPane.columnIndex="1">
-                <TextField fx:id="waterEveryField" promptText="e.g., 7"/>
-                <Label text="Positive integer • Leave blank if unsure" styleClass="subtle"/>
-            </VBox>
+                        <!-- Name Field -->
+                        <VBox spacing="8">
+                            <HBox spacing="4" alignment="CENTER_LEFT">
+                                <Label text="PLANT NAME" styleClass="kicker"/>
+                                <Label text="*" style="-fx-text-fill: #ff6b6b; -fx-font-weight: bold;"/>
+                            </HBox>
+                            <TextField fx:id="nameField"
+                                       promptText="e.g., Monstera Deliciosa"
+                                       style="-fx-font-size: 14px; -fx-pref-height: 42px;"/>
+                            <Label text="Give your plant a memorable name" styleClass="subtle"/>
+                        </VBox>
 
-            <!-- Sunlight -->
-            <Label text="Sunlight (hrs/day)" GridPane.rowIndex="3"/>
-            <VBox spacing="6" GridPane.rowIndex="3" GridPane.columnIndex="1">
-                <TextField fx:id="sunlightField" promptText="e.g., 4.5"/>
-                <Label text="Non‑negative number • Approximate is fine" styleClass="subtle"/>
-            </VBox>
+                        <!-- Species Field -->
+                        <VBox spacing="8">
+                            <Label text="SPECIES" styleClass="kicker"/>
+                            <TextField fx:id="speciesField"
+                                       promptText="e.g., Monstera deliciosa"
+                                       style="-fx-font-size: 14px; -fx-pref-height: 42px;"/>
+                            <Label text="Scientific name helps with care suggestions" styleClass="subtle"/>
+                        </VBox>
 
-            <!-- Last watered -->
-            <Label text="Last watered" GridPane.rowIndex="4"/>
-            <VBox spacing="6" GridPane.rowIndex="4" GridPane.columnIndex="1">
-                <DatePicker fx:id="lastWateredPicker"/>
-                <Label text="Used to compute next watering date" styleClass="subtle"/>
-            </VBox>
+                        <!-- Care Requirements Row -->
+                        <VBox spacing="12">
+                            <Label text="CARE REQUIREMENTS" styleClass="kicker"/>
+                            <HBox spacing="16">
+                                <!-- Water Frequency -->
+                                <VBox spacing="8" HBox.hgrow="ALWAYS">
+                                    <Label text="Water every (days)" style="-fx-text-fill: -color-text; -fx-font-size: 12px; -fx-font-weight: 600;"/>
+                                    <TextField fx:id="waterEveryField"
+                                               promptText="7"
+                                               style="-fx-font-size: 14px; -fx-pref-height: 42px;"/>
+                                </VBox>
 
-            <!-- Photo -->
-            <Label text="Photo" GridPane.rowIndex="5"/>
-            <VBox spacing="8" GridPane.rowIndex="5" GridPane.columnIndex="1">
-                <HBox spacing="8">
-                    <TextField fx:id="photoField" promptText="Path to image (drag &amp; drop here)" HBox.hgrow="ALWAYS"/>
-                    <Button text="Browse…" onAction="#browsePhoto" styleClass="nav-btn"/>
-                </HBox>
-                <HBox spacing="12">
-                    <ImageView fx:id="photoPreview" fitWidth="140" fitHeight="100" preserveRatio="true"
-                               smooth="true" />
-                    <VBox spacing="6">
-                        <Label text="Tip: Use a clear, front‑facing photo" styleClass="subtle"/>
-                        <Label text="Supported: PNG, JPG, GIF, WEBP" styleClass="subtle"/>
+                                <!-- Sunlight Hours -->
+                                <VBox spacing="8" HBox.hgrow="ALWAYS">
+                                    <Label text="Sunlight (hrs/day)" style="-fx-text-fill: -color-text; -fx-font-size: 12px; -fx-font-weight: 600;"/>
+                                    <TextField fx:id="sunlightField"
+                                               promptText="6.0"
+                                               style="-fx-font-size: 14px; -fx-pref-height: 42px;"/>
+                                </VBox>
+                            </HBox>
+                            <Label text="Leave blank if unsure • You can update these later" styleClass="subtle"/>
+                        </VBox>
+
+                        <!-- Last Watered -->
+                        <VBox spacing="8">
+                            <Label text="LAST WATERED" styleClass="kicker"/>
+                            <DatePicker fx:id="lastWateredPicker"
+                                        promptText="Select date"
+                                        style="-fx-font-size: 14px; -fx-pref-height: 42px;"/>
+                            <Label text="Used to calculate next watering reminder" styleClass="subtle"/>
+                        </VBox>
+
+                        <!-- Photo Section -->
+                        <VBox spacing="12">
+                            <Label text="PHOTO" styleClass="kicker"/>
+
+                            <!-- Photo Input Area -->
+                            <VBox spacing="8" styleClass="card"
+                                  style="-fx-background-color: -color-surface; -fx-border-color: -color-stroke; -fx-border-style: dashed; -fx-border-width: 2; -fx-padding: 16;">
+                                <HBox spacing="8" alignment="CENTER">
+                                    <TextField fx:id="photoField"
+                                               promptText="Drag and drop image here, or browse..."
+                                               HBox.hgrow="ALWAYS"
+                                               style="-fx-font-size: 13px; -fx-pref-height: 36px;"/>
+                                    <Button text="Browse" onAction="#browsePhoto"
+                                            styleClass="nav-btn"
+                                            style="-fx-font-weight: 600; -fx-pref-height: 36px; -fx-padding: 0 16;"/>
+                                </HBox>
+
+                                <!-- Photo Preview Area -->
+                                <HBox spacing="16" alignment="TOP_LEFT">
+                                    <VBox alignment="CENTER" spacing="8"
+                                          style="-fx-min-width: 160; -fx-min-height: 120; -fx-max-width: 160; -fx-max-height: 120; -fx-background-color: -color-elev-1; -fx-background-radius: 12px; -fx-border-radius: 12px; -fx-border-color: -color-stroke; -fx-border-width: 1;">
+                                        <ImageView fx:id="photoPreview"
+                                                   fitWidth="148" fitHeight="108"
+                                                   preserveRatio="true" smooth="true"
+                                                   style="-fx-background-radius: 10px;"/>
+                                        <Label text="Preview" styleClass="subtle"
+                                               style="-fx-font-size: 11px;"/>
+                                    </VBox>
+
+                                    <VBox spacing="6" alignment="TOP_LEFT">
+                                        <Label text="💡 Tips for great plant photos:"
+                                               style="-fx-text-fill: -color-text; -fx-font-size: 13px; -fx-font-weight: 600;"/>
+                                        <Label text="• Use natural lighting when possible" styleClass="subtle"/>
+                                        <Label text="• Capture the whole plant from the front" styleClass="subtle"/>
+                                        <Label text="• Keep the background simple and clean" styleClass="subtle"/>
+                                        <Label text="• Supported formats: PNG, JPG, GIF, WEBP" styleClass="subtle"/>
+                                    </VBox>
+                                </HBox>
+                            </VBox>
+                        </VBox>
+
+                        <!-- Error Display -->
+                        <HBox spacing="8" alignment="CENTER_LEFT"
+                              style="-fx-background-color: rgba(255, 107, 107, 0.1); -fx-background-radius: 8px; -fx-padding: 12; -fx-border-color: rgba(255, 107, 107, 0.3); -fx-border-width: 1; -fx-border-radius: 8px;"
+                              managed="false" visible="false" fx:id="errorContainer">
+                            <Label text="⚠" style="-fx-text-fill: #ff6b6b; -fx-font-size: 14px;"/>
+                            <Label fx:id="errorLabel"
+                                   style="-fx-text-fill: #ff9999; -fx-font-size: 13px;"
+                                   wrapText="true" HBox.hgrow="ALWAYS"/>
+                        </HBox>
+
                     </VBox>
-                </HBox>
-            </VBox>
+                </content>
+            </ScrollPane>
 
-            <!-- Error text -->
-            <Label fx:id="errorLabel" styleClass="subtle"
-                   GridPane.rowIndex="6" GridPane.columnSpan="2"/>
-        </GridPane>
+            <!-- Footer Actions -->
+            <HBox spacing="12" alignment="CENTER_RIGHT"
+                  styleClass="pad-16"
+                  style="-fx-padding: 16 24 24 24; -fx-border-color: -color-stroke transparent transparent transparent; -fx-border-width: 1 0 0 0;">
+                <Region HBox.hgrow="ALWAYS"/>
+                <Button text="Cancel" onAction="#cancel"
+                        styleClass="nav-btn"
+                        style="-fx-pref-height: 40px; -fx-padding: 0 20; -fx-font-size: 13px;"/>
+                <Button text="Save Plant" onAction="#save"
+                        styleClass="accent-btn pill"
+                        style="-fx-pref-height: 40px; -fx-padding: 0 24; -fx-font-size: 13px; -fx-font-weight: 600;"/>
+            </HBox>
+
+        </VBox>
     </center>
 
-    <!-- Footer actions -->
-    <bottom>
-        <HBox spacing="8" alignment="CENTER_RIGHT" styleClass="pad-16">
-            <Pane HBox.hgrow="ALWAYS"/>
-            <Button text="Cancel" onAction="#cancel" styleClass="nav-btn"/>
-            <Button text="Save"   onAction="#save"   styleClass="accent-btn pill"/>
-        </HBox>
-    </bottom>
 </BorderPane>
