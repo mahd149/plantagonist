@@ -41,7 +41,12 @@ public class BaseRepository<T> {
     }
 
 
-    public void replace(T t, String id, Function<T, String> idGetter) {
-        coll.replaceOne(Filters.eq("id", id), t);
+    // BaseRepository<T>
+    protected void replace(T entity, String id, Function<T, String> idGetter) {
+        var result = coll.replaceOne(Filters.eq("_id", id), entity);
+        System.out.println("[DB] replace _id=" + id +
+                " matched=" + result.getMatchedCount() +
+                " modified=" + result.getModifiedCount());
     }
+
 }
