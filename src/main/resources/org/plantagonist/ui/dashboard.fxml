@@ -12,33 +12,74 @@
             styleClass="content-area">
     <content>
         <!-- Page content -->
-        <VBox spacing="14" styleClass="pad-16">
+        <VBox spacing="20" styleClass="pad-16">
             <!-- Header -->
-            <HBox spacing="10">
-                <Label text="🌱 Today" styleClass="h1"/>
-                <Label text="Plant care at a glance" styleClass="subtle"/>
+            <HBox spacing="12" alignment="CENTER_LEFT">
+                <VBox spacing="2">
+                    <Label text="🌱 Today" styleClass="h1"/>
+                    <Label text="Plant care at a glance" styleClass="subtle"/>
+                </VBox>
                 <Pane HBox.hgrow="ALWAYS"/>
-                <Label text="LIVE" styleClass="badge"/>
+                <VBox spacing="4" alignment="CENTER_RIGHT">
+                    <Label text="LIVE" styleClass="badge"/>
+                    <Label fx:id="lastUpdated" text="Updated moments ago"
+                           style="-fx-text-fill: -color-muted; -fx-font-size: 10px;"/>
+                </VBox>
             </HBox>
 
             <!-- Cards grid -->
             <FlowPane hgap="12" vgap="20" styleClass="grid-12">
-                <!-- Weather Suggestion -->
-                <VBox spacing="8" prefWidth="360" styleClass="card card-tonal">
-                    <Label text="Weather Suggestion" styleClass="card-header"/>
-                    <Label fx:id="weatherAdvice" wrapText="true" styleClass="card-body"/>
-                    <HBox spacing="8">
-                        <Label text="Auto‑detected" styleClass="badge"/>
+                <!-- Enhanced Weather Suggestion -->
+                <VBox spacing="12" prefWidth="380" styleClass="card card-tonal">
+                    <!-- Weather Header -->
+                    <HBox spacing="8" alignment="CENTER_LEFT">
+                        <Label text="🌤" style="-fx-font-size: 18px;"/>
+                        <VBox spacing="2">
+                            <Label text="Weather Advisory" styleClass="card-header"/>
+                            <Label fx:id="weatherLocation" text="Loading location..."
+                                   style="-fx-text-fill: -color-muted; -fx-font-size: 11px;"/>
+                        </VBox>
+                        <Pane HBox.hgrow="ALWAYS"/>
+                        <Label fx:id="weatherTemp" text="--°C"
+                               style="-fx-text-fill: -color-primary-3; -fx-font-size: 16px; -fx-font-weight: 700;"/>
                     </HBox>
+
+                    <!-- Weather Advice -->
+                    <VBox spacing="8">
+                        <Label fx:id="weatherAdvice" wrapText="true" styleClass="card-body"
+                               style="-fx-font-size: 13px; -fx-line-spacing: 3px;"/>
+
+                        <!-- Weather Stats Row -->
+                        <HBox spacing="12" alignment="CENTER_LEFT">
+                            <HBox spacing="4" alignment="CENTER_LEFT">
+                                <Label text="💧" style="-fx-font-size: 12px;"/>
+                                <Label fx:id="weatherPrecip" text="0mm"
+                                       style="-fx-text-fill: -color-subtext; -fx-font-size: 11px; -fx-font-weight: 600;"/>
+                            </HBox>
+                            <HBox spacing="4" alignment="CENTER_LEFT">
+                                <Label text="💨" style="-fx-font-size: 12px;"/>
+                                <Label fx:id="weatherWind" text="0 km/h"
+                                       style="-fx-text-fill: -color-subtext; -fx-font-size: 11px; -fx-font-weight: 600;"/>
+                            </HBox>
+                            <Pane HBox.hgrow="ALWAYS"/>
+                            <Label text="WeatherAPI"
+                                   style="-fx-text-fill: rgba(26,77,46,0.8); -fx-font-size: 10px; -fx-font-weight: 600; -fx-background-color: rgba(26,77,46,0.15); -fx-background-radius: 8px; -fx-padding: 2 6;"/>
+                        </HBox>
+                    </VBox>
                 </VBox>
 
                 <!-- Upcoming Tasks -->
                 <VBox spacing="10" prefWidth="400" styleClass="card">
-                    <Label text="Upcoming Tasks" styleClass="card-header"/>
-                    <!-- Keep list heights reasonable to avoid inner scrollbars taking over -->
-                    <ListView fx:id="taskList" prefHeight="220" maxHeight="240" styleClass="light-list"/>
-                    <HBox spacing="8">
-                        <Button text="Add Task" styleClass="nav-btn"/>
+                    <HBox spacing="8" alignment="CENTER_LEFT">
+                        <Label text="📋 Upcoming Tasks" styleClass="card-header"/>
+                        <Pane HBox.hgrow="ALWAYS"/>
+                        <Label fx:id="taskCount" text="0 tasks"
+                               style="-fx-text-fill: -color-muted; -fx-font-size: 11px;"/>
+                    </HBox>
+                    <ListView fx:id="taskList" prefHeight="200" maxHeight="220" styleClass="light-list"/>
+                    <HBox spacing="8" alignment="CENTER_LEFT">
+                        <Button text="Add Task" styleClass="nav-btn"
+                                style="-fx-font-size: 12px;"/>
                         <Pane HBox.hgrow="ALWAYS"/>
                         <Label text="Today" styleClass="badge"/>
                     </HBox>
@@ -46,13 +87,153 @@
 
                 <!-- Streaks & Badges -->
                 <VBox spacing="10" prefWidth="400" styleClass="card">
-                    <Label text="Streaks &amp; Badges" styleClass="card-header"/>
-                    <ListView fx:id="streakList" prefHeight="220" maxHeight="240"/>
-                    <HBox spacing="8">
+                    <HBox spacing="8" alignment="CENTER_LEFT">
+                        <Label text="🏆 Streaks &amp; Badges" styleClass="card-header"/>
+                        <Pane HBox.hgrow="ALWAYS"/>
+                        <Label text="0 active"
+                               style="-fx-text-fill: -color-muted; -fx-font-size: 11px;"/>
+                    </HBox>
+                    <ListView fx:id="streakList" prefHeight="200" maxHeight="220"/>
+                    <HBox spacing="8" alignment="CENTER_LEFT">
                         <Label text="Keep it up!" styleClass="subtle"/>
+                        <Pane HBox.hgrow="ALWAYS"/>
+                        <Label text="🌿 Grow your streak"
+                               style="-fx-text-fill: rgba(42, 121, 74, 0.8); -fx-font-size: 10px; -fx-font-weight: 600; -fx-background-color: rgba(42, 121, 74, 0.15); -fx-background-radius: 8px; -fx-padding: 2 6;"/>
                     </HBox>
                 </VBox>
             </FlowPane>
+
+            <!-- Your Plants Section -->
+            <VBox spacing="16" styleClass="plants-section">
+                <!-- Enhanced Plants Header -->
+                <HBox spacing="12" alignment="CENTER_LEFT">
+                    <VBox spacing="3">
+                        <HBox spacing="8" alignment="CENTER_LEFT">
+                            <Label text="🪴 Your Plants" styleClass="h2"/>
+                            <Label fx:id="plantsCount" text="0 plants"
+                                   style="-fx-text-fill: -color-muted; -fx-font-size: 12px; -fx-font-weight: 600; -fx-background-color: rgba(255,255,255,0.05); -fx-background-radius: 10px; -fx-padding: 2 8;"/>
+                        </HBox>
+                        <Label text="Your green companions" styleClass="subtle"/>
+                    </VBox>
+                    <Pane HBox.hgrow="ALWAYS"/>
+
+                    <!-- Beautiful Enhanced Add Plant Button -->
+                    <VBox spacing="6" alignment="CENTER">
+                        <Button onAction="#addPlant" fx:id="addPlantBtn"
+                                style="-fx-background-color: linear-gradient(135deg, -color-primary-2 0%, -color-primary-3 100%);
+                                       -fx-text-fill: white;
+                                       -fx-font-weight: 700;
+                                       -fx-font-size: 13px;
+                                       -fx-padding: 12 24;
+                                       -fx-background-radius: 20px;
+                                       -fx-border-radius: 20px;
+                                       -fx-border-color: rgba(255,255,255,0.15);
+                                       -fx-border-width: 1;
+                                       -fx-effect: dropshadow(gaussian, rgba(26,77,46,0.4), 12, 0.3, 0, 4);
+                                       -fx-cursor: hand;
+                                       -fx-scale-x: 1.0; -fx-scale-y: 1.0;">
+                            <graphic>
+                                <HBox spacing="8" alignment="CENTER">
+                                    <!-- Enhanced Plus Icon -->
+                                    <Label text="+"
+                                           style="-fx-text-fill: white;
+                                                  -fx-font-size: 16px;
+                                                  -fx-font-weight: bold;
+                                                  -fx-background-color: rgba(255,255,255,0.25);
+                                                  -fx-background-radius: 12px;
+                                                  -fx-padding: 4 7;
+                                                  -fx-min-width: 26px;
+                                                  -fx-alignment: center;"/>
+                                    <!-- Button Text -->
+                                    <Label text="Add Plant"
+                                           style="-fx-text-fill: white;
+                                                  -fx-font-weight: 700;
+                                                  -fx-font-size: 13px;"/>
+                                </HBox>
+                            </graphic>
+                        </Button>
+
+                        <!-- Motivational hint -->
+                        <Label text="Grow your collection"
+                               style="-fx-text-fill: -color-muted; -fx-font-size: 10px; -fx-text-alignment: center;"/>
+                    </VBox>
+                </HBox>
+
+                <!-- Plants Grid -->
+                <ScrollPane fitToWidth="true" hbarPolicy="AS_NEEDED" vbarPolicy="NEVER"
+                            styleClass="plants-scroll" maxHeight="300">
+                    <content>
+                        <FlowPane fx:id="plantsGrid" hgap="16" vgap="16" styleClass="plants-grid"
+                                  alignment="CENTER_LEFT" prefWrapLength="1200"/>
+                    </content>
+                </ScrollPane>
+
+                <!-- Enhanced Empty State -->
+                <VBox spacing="16" alignment="CENTER" fx:id="emptyPlantsState"
+                      style="-fx-background-color: rgba(255,255,255,0.02);
+                             -fx-background-radius: 16px;
+                             -fx-border-color: rgba(255,255,255,0.05);
+                             -fx-border-width: 1;
+                             -fx-border-radius: 16px;
+                             -fx-padding: 40 30;"
+                      managed="false" visible="false">
+
+                    <!-- Large Plant Icon with subtle animation -->
+                    <Label text="🌱" style="-fx-font-size: 56px; -fx-opacity: 0.7;"/>
+
+                    <!-- Main message -->
+                    <VBox spacing="8" alignment="CENTER">
+                        <Label text="Your plant collection awaits"
+                               style="-fx-text-fill: -color-text; -fx-font-size: 18px; -fx-font-weight: 600;"/>
+                        <Label text="Add your first plant to start tracking care schedules and growth progress"
+                               styleClass="subtle"
+                               style="-fx-text-alignment: center; -fx-font-size: 13px; -fx-wrap-text: true; -fx-max-width: 300px;"/>
+                    </VBox>
+
+                    <!-- Call to action button -->
+                    <Button text="Add Your First Plant" onAction="#addPlant"
+                            style="-fx-background-color: -color-primary;
+                                   -fx-text-fill: white;
+                                   -fx-font-weight: 600;
+                                   -fx-font-size: 13px;
+                                   -fx-padding: 12 20;
+                                   -fx-background-radius: 18px;
+                                   -fx-border-radius: 18px;
+                                   -fx-border-color: rgba(255,255,255,0.1);
+                                   -fx-border-width: 1;
+                                   -fx-effect: dropshadow(gaussian, rgba(26,77,46,0.3), 8, 0.2, 0, 3);
+                                   -fx-cursor: hand;"/>
+
+                    <!-- Helpful getting started tips -->
+                    <VBox spacing="6" alignment="CENTER" style="-fx-padding: 16 0 0 0;">
+                        <Label text="✨ Quick start tips:"
+                               style="-fx-text-fill: -color-subtext; -fx-font-size: 12px; -fx-font-weight: 600;"/>
+                        <VBox spacing="3" alignment="CENTER_LEFT">
+                            <Label text="• 📸 Take a photo for easy identification"
+                                   styleClass="subtle" style="-fx-font-size: 11px;"/>
+                            <Label text="• 💧 Set watering schedules to stay on track"
+                                   styleClass="subtle" style="-fx-font-size: 11px;"/>
+                            <Label text="• ☀️ Note sunlight needs for optimal care"
+                                   styleClass="subtle" style="-fx-font-size: 11px;"/>
+                        </VBox>
+                    </VBox>
+                </VBox>
+
+                <!-- Regular tip for when plants exist -->
+                <HBox spacing="8" alignment="CENTER" fx:id="plantsTipContainer"
+                      style="-fx-background-color: rgba(26,77,46,0.08);
+                             -fx-background-radius: 12px;
+                             -fx-padding: 8 12;
+                             -fx-border-color: rgba(26,77,46,0.15);
+                             -fx-border-width: 1;
+                             -fx-border-radius: 12px;"
+                      managed="false" visible="false">
+                    <Label text="💡" style="-fx-font-size: 14px;"/>
+                    <Label text="Click any plant card to edit details, update care schedules, or add notes"
+                           styleClass="subtle"
+                           style="-fx-font-size: 11px; -fx-text-alignment: center;"/>
+                </HBox>
+            </VBox>
         </VBox>
     </content>
 </ScrollPane>
