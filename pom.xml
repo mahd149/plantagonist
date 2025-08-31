@@ -75,6 +75,15 @@
     </dependencies>
 
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>false</filtering>
+                <includes>
+                    <include>**/*</include>
+                </includes>
+            </resource>
+        </resources>
         <plugins>
             <!-- Compile with JDK 24 -->
             <plugin>
