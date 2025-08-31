@@ -190,21 +190,33 @@ public class PlantsController {
     // ===== CRUD helpers =====
     private void edit(Plant target) {
         try {
+            if (target == null || target.getId() == null || target.getId().isBlank()) {
+                showError("Couldn't edit plant", "Plant is missing an id.");
+                return;
+            }
+
             Plant workingCopy = deepCopy(target);
             Plant edited = PlantFormController.openDialog(getWindow(), workingCopy);
-            if (edited != null) {
-                String id = target.getId();
-                if (edited.getId() == null || edited.getId().isBlank()) {
-                    edited.setId(id);
-                }
-                repo.replaceById(id, edited);
-                reload();
-                taskService.syncAllWaterTasks();   // <— sync tasks
-            }
-        } catch (Throwable t) {
-            showError("Couldn’t edit plant", t.getMessage());
+            if (edited == null) return;
+
+            // Always preserve the original _id
+            edited.setId(target.getId());
+
+            repo.replaceById(target.getId(), edited);  // uses _id under the hood
+            reload();                                   // refresh plants UI
+
+            taskService.syncAllWaterTasks();            // recompute tasks after save
+            // If your dashboard shows tasks, refresh them too:
+//            loadTasks();
+            // And (optional) streaks/badges & timestamp:
+            // refreshStreaks();
+//            updateTimestamp();
+
+        } catch (Exception t) {
+            showError("Couldn't edit plant", t.getMessage());
         }
     }
+
 
     private void delete(Plant p) {
         Alert a = new Alert(Alert.AlertType.CONFIRMATION);
