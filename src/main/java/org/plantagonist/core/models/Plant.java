@@ -9,6 +9,8 @@ import javafx.beans.property.StringProperty;
 import java.time.LocalDate;
 
 public class Plant {
+    private final StringProperty userId = new SimpleStringProperty();
+
     private final StringProperty id = new SimpleStringProperty();
     private final StringProperty name = new SimpleStringProperty();
     private final StringProperty species = new SimpleStringProperty();
@@ -46,9 +48,16 @@ public class Plant {
     public void setLastWatered(LocalDate v) { lastWatered.set(v); }
     public ObjectProperty<LocalDate> lastWateredProperty() { return lastWatered; }
 
+
+    // Add getters/setters
+    public String getUserId() { return userId.get(); }
+    public void setUserId(String v) { userId.set(v); }
+    public StringProperty userIdProperty() { return userId; }
+
     public Plant copy() {
         Plant p = new Plant();
         p.setId(getId());
+        p.setUserId(getUserId()); // ← ADD THIS
         p.setName(getName());
         p.setSpecies(getSpecies());
         p.setWaterEveryDays(getWaterEveryDays());
@@ -57,4 +66,5 @@ public class Plant {
         p.setLastWatered(getLastWatered());
         return p;
     }
+
 }

@@ -11,6 +11,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import org.plantagonist.core.auth.CurrentUser;
 import org.plantagonist.core.models.Plant;
 import org.plantagonist.core.repositories.PlantRepository;
 
@@ -46,6 +47,7 @@ public class PlantsController {
     @FXML
     public void initialize() {
         // initial load
+        String userId = CurrentUser.get().getId();
         reload();
 
         // live search
@@ -68,22 +70,29 @@ public class PlantsController {
             if (created.getId() == null || created.getId().isBlank()) {
                 created.setId(java.util.UUID.randomUUID().toString());
             }
+
+            // SET USER ID ON NEW PLANT ← ADD THIS
+            created.setUserId(CurrentUser.get().getId());
+
             repo.insertOne(created);
             reload();
-            taskService.syncAllWaterTasks();   // <— sync tasks
+            taskService.syncAllWaterTasks(CurrentUser.get().getId()); // ← PASS USER ID
 
         } catch (Throwable t) {
-            showError("Couldn’t add plant", t.getMessage());
+            showError("Couldn't add plant", t.getMessage());
         }
     }
-
     @FXML
     private void reload() {
-        List<Plant> all = repo.findAll();
+        String userId = CurrentUser.get().getId();
+        List<Plant> all = repo.findByUserId(userId); // ← CHANGE THIS
         backing.setAll(all);
         render();
-        taskService.syncAllWaterTasks();
+
+        // Pass userId to task service
+        taskService.syncAllWaterTasks(userId);
     }
+
 
     // ===== Rendering cards =====
     private void render() {
@@ -201,11 +210,13 @@ public class PlantsController {
 
             // Always preserve the original _id
             edited.setId(target.getId());
+            edited.setUserId(target.getUserId()); // Preserve userId
+
 
             repo.replaceById(target.getId(), edited);  // uses _id under the hood
             reload();                                   // refresh plants UI
 
-            taskService.syncAllWaterTasks();            // recompute tasks after save
+            taskService.syncAllWaterTasks(CurrentUser.get().getId());            // recompute tasks after save
             // If your dashboard shows tasks, refresh them too:
 //            loadTasks();
             // And (optional) streaks/badges & timestamp:
@@ -227,7 +238,7 @@ public class PlantsController {
             if (btn == ButtonType.OK) {
                 repo.deleteById(p.getId());
                 reload();
-                taskService.syncAllWaterTasks();
+                taskService.syncAllWaterTasks(CurrentUser.get().getId());
             }
         });
     }

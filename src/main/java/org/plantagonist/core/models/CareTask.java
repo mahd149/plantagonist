@@ -3,6 +3,8 @@ package org.plantagonist.core.models;
 import java.time.LocalDate;
 
 public class CareTask {
+    private String userId;
+
     private String id;           // UUID string (we'll set in code)
     private String plantId;      // links to Plant.id
     private String plantName;    // denormalized for display
@@ -32,4 +34,7 @@ public class CareTask {
 
     public String getNotes() { return notes; }
     public void setNotes(String notes) { this.notes = notes; }
+    public String getUserId() { return userId; }
+    public void setUserId(String userId) { this.userId = userId; }
+
 }

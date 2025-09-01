@@ -3,6 +3,7 @@ package org.plantagonist.core.repositories;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Updates;
 import org.bson.conversions.Bson;
+import org.plantagonist.core.auth.CurrentUser;
 import org.plantagonist.core.db.MongoConfig;
 import org.plantagonist.core.models.CareTask;
 
@@ -53,6 +54,36 @@ public class CareTaskRepository extends BaseRepository<CareTask> {
                 " matched=" + result.getMatchedCount() +
                 " modified=" + result.getModifiedCount());
     }
+
+    public List<CareTask> findByUserId(String userId) {
+        return findByUserId(userId, CareTask::getUserId);
+    }
+
+    public List<CareTask> findDueOrUpcoming(String userId) {
+        Bson filter = Filters.and(
+                Filters.eq("userId", userId),
+                Filters.ne("status", "DONE")
+        );
+        List<CareTask> out = new ArrayList<>();
+        coll.find(filter).into(out);
+        return out;
+    }
+
+    public void deleteByPlantIdAndType(String plantId, String type, String userId) {
+        Bson filter = Filters.and(
+                Filters.eq("plantId", plantId),
+                Filters.eq("type", type),
+                Filters.eq("userId", userId)
+        );
+        coll.deleteMany(filter);
+    }
+
+//    public void deleteByPlantIdAndType(String plantId, String type) {
+//        // For backward compatibility, but ideally all callers should pass userId
+//        String userId = CurrentUser.get().getId(); // Or make this method private
+//        deleteByPlantIdAndType(plantId, type, userId);
+//    }
+
 
 
 

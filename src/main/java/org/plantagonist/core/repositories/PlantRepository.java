@@ -20,6 +20,9 @@ public class PlantRepository extends BaseRepository<Plant> {
 
     public long deleteById(String id) { return super.deleteById(id, Plant::getId); }
 
+    public List<Plant> findByUserId(String userId) {
+        return findByUserId(userId, Plant::getUserId);
+    }
     /** Replace using the id inside the plant */
 //    public void replaceById(Plant p) {
 //        if (p.getId() == null || p.getId().isBlank()) {

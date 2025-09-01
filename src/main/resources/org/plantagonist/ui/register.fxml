@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/20" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.plantagonist.ui.RegisterController" prefWidth="400" prefHeight="600"
+            styleClass="app-root">
+    <children>
+        <VBox spacing="20" alignment="CENTER" AnchorPane.leftAnchor="40" AnchorPane.rightAnchor="40"
+              AnchorPane.topAnchor="40" AnchorPane.bottomAnchor="40">
+            <!-- Header -->
+            <VBox spacing="8" alignment="CENTER">
+                <Label text="🌱" style="-fx-font-size: 32px;"/>
+                <Label text="Create Account" styleClass="h1" style="-fx-font-size: 28px;"/>
+                <Label text="Join the Plantagonist community" styleClass="subtle" style="-fx-font-size: 14px;"/>
+            </VBox>
+
+            <!-- Form -->
+            <VBox spacing="16" styleClass="card" style="-fx-padding: 24; -fx-background-color: -color-elev-1;">
+                <TextField fx:id="emailField" promptText="Email" styleClass="text-field"/>
+                <TextField fx:id="usernameField" promptText="Username" styleClass="text-field"/>
+                <PasswordField fx:id="passwordField" promptText="Password" styleClass="password-field"/>
+                <PasswordField fx:id="confirmPasswordField" promptText="Confirm Password" styleClass="password-field"/>
+
+                <Button text="Create Account" onAction="#onRegister" styleClass="accent-btn pill"
+                        style="-fx-font-size: 14px; -fx-padding: 10 20;"/>
+
+                <Separator style="-fx-padding: 8 0;"/>
+
+                <Hyperlink text="Already have an account? Login here" onAction="#onGoLogin"
+                           styleClass="subtle" style="-fx-font-size: 13px; -fx-text-alignment: center;"/>
+            </VBox>
+
+            <!-- Error message -->
+            <Label fx:id="errorLabel" styleClass="muted" style="-fx-text-alignment: center; -fx-wrap-text: true;"
+                   maxWidth="300"/>
+        </VBox>
+    </children>
+</AnchorPane>

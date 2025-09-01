@@ -34,14 +34,15 @@ public class TaskService {
      * - precip >= threshold => push by +1 day (unless already overdue)
      * - hot day => pull by -1 day (min today)
      */
-    public void syncAllWaterTasks() {
+    public void syncAllWaterTasks(String userId) {
         WeatherService.WeatherNow w = null;
         try {
             w = weatherService.getNowAuto();
         } catch (Exception ignored) {}
 
-        List<Plant> plants = plantRepo.findAll();
+        List<Plant> plants = plantRepo.findByUserId(userId);
         LocalDate today = LocalDate.now();
+
 
         for (Plant p : plants) {
             String pid = p.getId();
@@ -75,16 +76,18 @@ public class TaskService {
             else if (next.isEqual(today)) status = "TODAY";
             else status = "UPCOMING";
 
-            upsertWaterTask(pid, safe(p.getName()), next, status);
+            upsertWaterTask(pid, safe(p.getName()), next, status, userId);
         }
     }
 
-    private void upsertWaterTask(String plantId, String plantName, LocalDate due, String status) {
+    private void upsertWaterTask(String plantId, String plantName, LocalDate due, String status, String userId) {
         // Delete any existing WATER task for this plant and insert fresh (keeps it simple)
-        taskRepo.deleteByPlantIdAndType(plantId, "WATER");
+        taskRepo.deleteByPlantIdAndType(plantId, "WATER", userId);
+
 
         CareTask t = new CareTask();
         t.setId(UUID.randomUUID().toString());
+        t.setUserId(userId);
         t.setPlantId(plantId);
         t.setPlantName(plantName);
         t.setType("WATER");

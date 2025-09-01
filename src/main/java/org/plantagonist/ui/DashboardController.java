@@ -11,6 +11,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import org.plantagonist.core.auth.CurrentUser;
 import org.plantagonist.core.models.CareTask;
 import org.plantagonist.core.models.Plant;
 import org.plantagonist.core.repositories.CareTaskRepository;
@@ -26,6 +27,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
+import java.util.spi.CurrencyNameProvider;
 import java.util.stream.Collectors;
 
 public class DashboardController {
@@ -62,11 +64,13 @@ public class DashboardController {
 
     @FXML
     public void initialize() {
+        String userId = CurrentUser.get().getId();
+
         setupPlaceholders();
         setupWeatherDisplay();
         configureTaskCells();
-        loadTasks();
-        loadPlants();
+        loadTasks(userId);
+        loadPlants(userId);
         updateTimestamp();
     }
 
@@ -199,8 +203,8 @@ public class DashboardController {
         });
     }
 
-    private void loadTasks() {
-        List<CareTask> items = taskRepo.findDueOrUpcoming();
+    private void loadTasks(String userId) {
+        List<CareTask> items = taskRepo.findDueOrUpcoming(userId);
 
         // Filter out DONE here defensively in case the repo doesn’t.
         List<CareTask> active = items.stream()
@@ -226,9 +230,9 @@ public class DashboardController {
     }
 
 
-    private void loadPlants() {
+    private void loadPlants(String userId) {
         try {
-            List<Plant> plants = plantRepo.findAll();
+            List<Plant> plants = plantRepo.findByUserId(userId);
             plantsGrid.getChildren().clear();
 
             // Update plants count
@@ -372,9 +376,10 @@ public class DashboardController {
             if (created.getId() == null || created.getId().isBlank()) {
                 created.setId(java.util.UUID.randomUUID().toString());
             }
+            created.setUserId(CurrentUser.get().getId());
             plantRepo.insertOne(created);
-            loadPlants(); // Refresh the plants display
-            taskService.syncAllWaterTasks();
+            loadPlants(CurrentUser.get().getId()); // Refresh the plants display
+            taskService.syncAllWaterTasks(CurrentUser.get().getId());
         } catch (Exception e) {
             showError("Couldn't add plant", e.getMessage());
         }
@@ -419,9 +424,11 @@ public class DashboardController {
                 if (edited.getId() == null || edited.getId().isBlank()) {
                     edited.setId(id);
                 }
+
+                edited.setUserId(CurrentUser.get().getId());
                 plantRepo.replaceById(id, edited);
-                loadPlants(); // Refresh the plants display
-                taskService.syncAllWaterTasks();
+                loadPlants(CurrentUser.get().getId()); // Refresh the plants display
+                taskService.syncAllWaterTasks(CurrentUser.get().getId());
             }
         } catch (Exception e) {
             showError("Couldn't edit plant", e.getMessage());
@@ -454,6 +461,7 @@ public class DashboardController {
         }
         final String taskId  = task.getId();
         final String plantId = task.getPlantId();
+        final String userId = CurrentUser.get().getId();
 
         // Optimistic UI
         taskList.getItems().removeIf(x -> Objects.equals(x.getId(), taskId));
@@ -476,16 +484,16 @@ public class DashboardController {
             }
 
             // 3) Recompute tasks (will delete WATER and insert next by lastWatered)
-            taskService.syncAllWaterTasks();
+            taskService.syncAllWaterTasks(userId);
 
             // 4) Reload (defensively filters DONE anyway)
-            loadTasks();
+            loadTasks(userId);
             updateTimestamp();
 
         } catch (Exception ex) {
             ex.printStackTrace();
             showError("Failed to mark task done", ex.getClass().getSimpleName() + ": " + ex.getMessage());
-            loadTasks();
+            loadTasks(userId);
         }
     }
 
