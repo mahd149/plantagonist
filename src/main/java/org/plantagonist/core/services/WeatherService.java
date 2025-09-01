@@ -23,6 +23,9 @@ public class WeatherService {
         public Double lat;
         public Double lon;
         public String locationName; // e.g., "Dhaka"
+        public String humidity;
+        public String windKph;
+        public String lastUpdated;
     }
 
     private static String env(String key) {
