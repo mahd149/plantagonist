@@ -48,4 +48,17 @@ public class BaseRepository<T> {
                 " matched=" + result.getMatchedCount() +
                 " modified=" + result.getModifiedCount());
     }
+
+    public List<T> findByUserId(String userId, Function<T, String> userIdGetter) {
+        List<T> out = new ArrayList<>();
+        coll.find(Filters.eq("userId", userId)).into(out);
+        return out;
+    }
+
+    public List<T> findByField(String fieldName, String value) {
+        List<T> out = new ArrayList<>();
+        coll.find(Filters.eq(fieldName, value)).into(out);
+        return out;
+    }
+
 }

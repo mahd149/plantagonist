@@ -17,6 +17,7 @@ module org.plantagonist {
     requires org.mongodb.driver.sync.client;
     requires org.mongodb.bson;
     requires org.mongodb.driver.core;
+    requires jbcrypt;
 
     // --- Reflection openings ---
     // FXML controllers are constructed reflectively

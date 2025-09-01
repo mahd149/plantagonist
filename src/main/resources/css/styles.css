@@ -304,3 +304,80 @@
     -fx-text-alignment: center;
     -fx-alignment: center;
 }
+
+
+
+/* =========
+   AUTH PAGES (Login & Register)
+   ========= */
+.auth-container {
+    -fx-background-color: -color-bg;
+    -fx-padding: 40;
+}
+
+.auth-header {
+    -fx-alignment: center;
+    -fx-spacing: 8;
+}
+
+.auth-form {
+    -fx-background-color: -color-elev-1;
+    -fx-background-radius: -radius-squircle;
+    -fx-border-radius: -radius-squircle;
+    -fx-border-color: -color-stroke;
+    -fx-border-width: 1;
+    -fx-padding: 24;
+    -fx-effect: -shadow-2;
+}
+
+.auth-btn {
+    -fx-background-color: -color-primary;
+    -fx-text-fill: white;
+    -fx-font-weight: 600;
+    -fx-font-size: 14px;
+    -fx-padding: 10 20;
+    -fx-background-radius: -radius-pill;
+    -fx-effect: -shadow-1;
+}
+
+.auth-btn:hover {
+    -fx-background-color: -color-primary-2;
+}
+
+.auth-btn:pressed {
+    -fx-background-color: -color-primary-3;
+}
+
+.auth-link {
+    -fx-text-fill: -color-subtext;
+    -fx-font-size: 13px;
+    -fx-underline: false;
+}
+
+.auth-link:hover {
+    -fx-text-fill: -color-text;
+    -fx-underline: true;
+}
+
+/* Form field enhancements */
+.auth-field {
+    -fx-background-radius: -radius-pill;
+    -fx-padding: 10 16;
+    -fx-font-size: 14px;
+}
+
+/* Error message styling */
+.auth-error {
+    -fx-text-fill: #FF6B6B;
+    -fx-font-size: 13px;
+    -fx-wrap-text: true;
+    -fx-text-alignment: center;
+}
+
+/* Success message */
+.auth-success {
+    -fx-text-fill: #51CF66;
+    -fx-font-size: 13px;
+    -fx-wrap-text: true;
+    -fx-text-alignment: center;
+}

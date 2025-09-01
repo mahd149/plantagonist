@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="500" prefWidth="400" styleClass="content-area" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.plantagonist.ui.LoginController">
+    <children>
+        <VBox alignment="CENTER" spacing="20" styleClass="content-area" AnchorPane.bottomAnchor="40" AnchorPane.leftAnchor="40" AnchorPane.rightAnchor="40" AnchorPane.topAnchor="40">
+            <!-- Header -->
+            <VBox alignment="CENTER" spacing="8" styleClass="content-area">
+                <Label style="-fx-font-size: 32px;" text="🌿" />
+                <Label style="-fx-font-size: 28px;" styleClass="h1" text="Plantagonist" />
+                <Label style="-fx-font-size: 14px;" styleClass="subtle" text="Welcome back" />
+            </VBox>
+
+            <!-- Form -->
+            <VBox spacing="16" style="-fx-padding: 24; -fx-background-color: -color-elev-1;" styleClass="card">
+                <TextField fx:id="emailOrUsername" promptText="Email or username" styleClass="text-field" />
+                <PasswordField fx:id="password" promptText="Password" styleClass="password-field" />
+
+                <Button onAction="#onLogin" style="-fx-font-size: 14px; -fx-padding: 10 20;" styleClass="accent-btn pill" text="Sign In" />
+
+                <Separator style="-fx-padding: 8 0;" />
+
+                <Hyperlink onAction="#onGoRegister" style="-fx-font-size: 13px; -fx-text-alignment: center;" styleClass="subtle" text="Don't have an account? Register here" />
+            </VBox>
+
+            <!-- Error message -->
+            <Label fx:id="error" maxWidth="300" style="-fx-text-alignment: center; -fx-wrap-text: true;" styleClass="muted" />
+        </VBox>
+    </children>
+</AnchorPane>
