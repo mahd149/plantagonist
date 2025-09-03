@@ -43,7 +43,26 @@ public class UserProfile {
     private Date updatedAt;
 
     // ---- Constructors
+    // Add these fields to your UserProfile class
+    private int streakDays = 0;
+    private int badgeCount = 0;
 
+    // Add these getters and setters
+    public int getStreakDays() {
+        return streakDays;
+    }
+
+    public void setStreakDays(int streakDays) {
+        this.streakDays = streakDays;
+    }
+
+    public int getBadgeCount() {
+        return badgeCount;
+    }
+
+    public void setBadgeCount(int badgeCount) {
+        this.badgeCount = badgeCount;
+    }
     /** Default: Dhaka, metric, light theme. */
     public UserProfile() {
         this.id = UUID.randomUUID().toString();

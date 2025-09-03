@@ -381,3 +381,39 @@
     -fx-wrap-text: true;
     -fx-text-alignment: center;
 }
+
+/* SETTINGS PAGE SPECIFIC */
+.settings-container {
+    -fx-background-color: -color-bg; /* Dark background */
+    -fx-padding: 20px;
+}
+
+.card {
+    -fx-background-color: -color-elev-1; /* Dark card background */
+    -fx-background-radius: -radius-squircle;
+    -fx-border-radius: -radius-squircle;
+    -fx-border-color: -color-stroke;
+    -fx-border-width: 1;
+    -fx-padding: 14px;
+    -fx-effect: -shadow-1;
+}
+
+.card-header {
+    -fx-text-fill: -color-text;
+    -fx-font-size: 16px;
+    -fx-font-weight: 700;
+}
+
+.subtle {
+    -fx-text-fill: -color-subtext;
+}
+
+.kicker {
+    -fx-text-fill: -color-primary-3;
+    -fx-font-weight: bold;
+}
+
+.text-field, .password-field, .combo-box-base, .date-picker {
+    -fx-background-color: -color-surface;
+    -fx-text-fill: -color-text;
+}

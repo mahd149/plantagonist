@@ -45,4 +45,17 @@ public final class UiRouter {
             throw new RuntimeException("Failed to load FXML", e);
         }
     }
+    // Show Settings screen
+    public static void showSettings(Stage stage) {
+        try {
+            FXMLLoader loader = new FXMLLoader(UiRouter.class.getResource("/org/plantagonist/ui/settings.fxml"));
+            Scene scene = new Scene(loader.load(), 600, 500);
+            stage.setScene(scene);
+            stage.setTitle("Settings - Plantagonist");
+            stage.centerOnScreen();
+            stage.show();
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to load settings", e);
+        }
+    }
 }

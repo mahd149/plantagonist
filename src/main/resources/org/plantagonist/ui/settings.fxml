@@ -1,11 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.*?>
-<VBox xmlns:fx="http://javafx.com/fxml" spacing="12" fx:controller="org.plantagonist.ui.SettingsController">
-    <children>
-        <Label text="Settings" styleClass="h1"/>
-        <TextField fx:id="cityField" promptText="City (for weather)"/>
-        <ChoiceBox fx:id="unitsChoice"/>
-        <Button text="Save" onAction="#saveSettings"/>
-    </children>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      spacing="20"
+      fx:controller="org.plantagonist.ui.SettingsController"
+      styleClass="app-root"
+      style="-fx-padding: 20; -fx-background-color: #0E0F10;"> <!-- Dark background for project theme -->
+
+    <!-- Header -->
+    <Label text="⚙️ Settings" styleClass="h1"/>
+
+    <!-- User Profile Section -->
+    <VBox spacing="15" styleClass="card">
+        <Label text="👤 User Profile" styleClass="card-header"/>
+        <GridPane hgap="10" vgap="15">
+            <columnConstraints>
+                <ColumnConstraints percentWidth="30"/>
+                <ColumnConstraints percentWidth="70"/>
+            </columnConstraints>
+
+            <Label text="Username:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+            <TextField fx:id="usernameField" promptText="Enter username" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+            <Label text="Email:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+            <TextField fx:id="emailField" promptText="Enter email" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+            <Label text="City:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+            <TextField fx:id="cityField" promptText="City for weather" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+        </GridPane>
+    </VBox>
+
+    <!-- Achievements Section -->
+    <VBox spacing="15" styleClass="card">
+        <Label text="🏆 Achievements" styleClass="card-header"/>
+        <HBox spacing="30" alignment="CENTER">
+            <VBox alignment="CENTER" spacing="5">
+                <Label text="🔥" styleClass="kicker"/>
+                <Label fx:id="streakLabel" text="Loading..." styleClass="subtle"/>
+                <Label text="Current Streak" styleClass="subtle"/>
+            </VBox>
+            <VBox alignment="CENTER" spacing="5">
+                <Label text="⭐" styleClass="kicker"/>
+                <Label fx:id="badgeLabel" text="Loading..." styleClass="subtle"/>
+                <Label text="Badges Earned" styleClass="subtle"/>
+            </VBox>
+        </HBox>
+    </VBox>
+
+    <!-- Action Buttons -->
+    <HBox spacing="15" alignment="CENTER">
+        <Button text="💾 Save Changes" onAction="#handleSaveProfile" styleClass="accent-btn"/>
+        <Button text="🚪 Log Out" onAction="#handleLogout" styleClass="nav-btn"/>
+    </HBox>
+
 </VBox>
