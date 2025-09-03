@@ -64,6 +64,13 @@ public class CareLogController {
 
     @FXML
     public void initialize() {
+        // Attach table styles globally
+        String tableCss = getClass().getResource("/org/plantagonist/css/table-styles.css").toExternalForm();
+        todayTasksTable.getStylesheets().add(tableCss);
+        upcomingTasksTable.getStylesheets().add(tableCss);
+        careHistoryTable.getStylesheets().add(tableCss);
+        notificationsList.getStylesheets().add(tableCss);
+
         setupTables();
         loadPlantFact();
         loadData();
@@ -92,7 +99,6 @@ public class CareLogController {
 
         todayTasksTable.getColumns().setAll(taskCol, plantCol, statusCol, actionCol);
         todayTasksTable.setItems(todayTasks);
-        todayTasksTable.setStyle("-fx-text-fill: white;");
 
         // Upcoming tasks table
         TableColumn<CareTask, String> dateCol = new TableColumn<>("Date");
@@ -115,8 +121,6 @@ public class CareLogController {
 
         upcomingTasksTable.getColumns().setAll(dateCol, upcomingTaskCol, upcomingPlantCol, upcomingActionCol);
         upcomingTasksTable.setItems(upcomingTasks);
-        upcomingTasksTable.setStyle("-fx-text-fill: white;");
-
 
         // Care history table
         TableColumn<CareLogEntry, String> historyDateCol = new TableColumn<>("Date");
@@ -149,8 +153,6 @@ public class CareLogController {
 
         careHistoryTable.getColumns().setAll(historyDateCol, historyActionCol, historyPlantCol, historyDetailsCol);
         careHistoryTable.setItems(careHistory);
-        careHistoryTable.setStyle("-fx-text-fill: white;");
-
 
         // Notifications list
         notificationsList.setItems(notifications);
@@ -163,7 +165,7 @@ public class CareLogController {
                     setGraphic(null);
                 } else {
                     setText(item);
-                    setStyle("-fx-text-fill: #ff6b6b; -fx-font-weight: bold;");
+                    getStyleClass().add("notification-label");
                 }
             }
         });
@@ -180,13 +182,9 @@ public class CareLogController {
                 buttonBox.getChildren().addAll(doneBtn, missBtn, cancelBtn);
                 buttonBox.setStyle("-fx-alignment: center;");
 
-                doneBtn.getStyleClass().addAll("accent-btn", "pill");
-                missBtn.getStyleClass().addAll("nav-btn", "pill");
-                cancelBtn.getStyleClass().addAll("nav-btn", "pill");
-
-                doneBtn.setStyle("-fx-font-size: 11px; -fx-padding: 4 8;");
-                missBtn.setStyle("-fx-font-size: 11px; -fx-padding: 4 8;");
-                cancelBtn.setStyle("-fx-font-size: 11px; -fx-padding: 4 8;");
+                doneBtn.getStyleClass().addAll("action-btn", "done");
+                missBtn.getStyleClass().addAll("action-btn", "miss");
+                cancelBtn.getStyleClass().addAll("action-btn", "cancel");
 
                 doneBtn.setOnAction(event -> {
                     CareTask task = getTableView().getItems().get(getIndex());
@@ -207,11 +205,7 @@ public class CareLogController {
             @Override
             protected void updateItem(Void item, boolean empty) {
                 super.updateItem(item, empty);
-                if (empty) {
-                    setGraphic(null);
-                } else {
-                    setGraphic(buttonBox);
-                }
+                setGraphic(empty ? null : buttonBox);
             }
         };
     }
@@ -230,7 +224,7 @@ public class CareLogController {
 
         int randomIndex = new Random().nextInt(facts.length);
         plantFactLabel.setText(facts[randomIndex]);
-        plantFactLabel.setStyle("-fx-text-fill: #9EDBB5; -fx-font-size: 14px; -fx-font-weight: bold; -fx-padding: 10;");
+        plantFactLabel.getStyleClass().add("plant-fact-label");
     }
 
     private void loadData() {
@@ -315,11 +309,14 @@ public class CareLogController {
         dialog.setTitle("Log " + actionType.replace("_", " "));
         dialog.setHeaderText("Record your plant care activity");
 
-        // Set the button types
+        // Attach form stylesheet
+        dialog.getDialogPane().getStylesheets().add(
+                getClass().getResource("/org/plantagonist/css/form-styles.css").toExternalForm()
+        );
+
         ButtonType logButtonType = new ButtonType("Log", ButtonBar.ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().addAll(logButtonType, ButtonType.CANCEL);
 
-        // Create the form
         VBox form = new VBox(10);
         form.setPadding(new javafx.geometry.Insets(20, 10, 10, 10));
 
@@ -377,7 +374,6 @@ public class CareLogController {
 
         dialog.getDialogPane().setContent(form);
 
-        // Convert the result to a CareLogEntry
         dialog.setResultConverter(dialogButton -> {
             if (dialogButton == logButtonType) {
                 if (plantCombo.getValue() == null) {
@@ -411,7 +407,6 @@ public class CareLogController {
         task.setStatus("DONE");
         careTaskRepository.updateStatus(task.getId(), "DONE");
 
-        // Create a log entry
         CareLogEntry logEntry = new CareLogEntry();
         logEntry.setId(UUID.randomUUID().toString());
         logEntry.setPlantId(task.getPlantId());
