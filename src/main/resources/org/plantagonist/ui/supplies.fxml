@@ -12,9 +12,9 @@
 
 <VBox spacing="16" styleClass="content-area" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.plantagonist.ui.SuppliesController">
 
-    <stylesheets>
-        <URL value="@../css/styles.css" />
-    </stylesheets>
+<!--    <stylesheets>-->
+<!--        <URL value="@../css/styles.css" />-->
+<!--    </stylesheets>-->
 
     <!-- Header -->
     <HBox alignment="CENTER_LEFT" spacing="12">

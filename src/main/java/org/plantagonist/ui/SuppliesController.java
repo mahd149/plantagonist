@@ -1,11 +1,16 @@
 package org.plantagonist.ui;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
 import javafx.util.converter.IntegerStringConverter;
+import org.bson.types.ObjectId;
+import org.plantagonist.core.auth.CurrentUser;
 import org.plantagonist.core.models.SupplyItem;
 import org.plantagonist.core.repositories.SupplyRepository;
 import org.plantagonist.core.services.NotificationService;
@@ -26,12 +31,17 @@ public class SuppliesController {
     @FXML private TextField qtyField;
     @FXML private TextField thresholdField;
 
+    private final ObservableList<SupplyItem> backing = FXCollections.observableArrayList();
+
     private final SupplyRepository supplyRepository = new SupplyRepository();
     private NotificationService notificationService;
 
+    private String currentUserId() {
+        return CurrentUser.get().getId(); // replace if your auth accessor differs
+    }
+
     @FXML
     public void initialize() {
-        // Initialize notification service if available
         try {
             notificationService = new NotificationService();
         } catch (Exception e) {
@@ -39,17 +49,15 @@ public class SuppliesController {
         }
 
         setupTable();
-        loadSupplies();
+        reload();
     }
 
     private void setupTable() {
-        // Status column with custom cell factory for colored status badges
+        // Status column (computed)
         statusColumn.setCellValueFactory(cellData -> {
-            SupplyItem item = cellData.getValue();
-            String status = determineStatus(item);
+            String status = determineStatus(cellData.getValue());
             return new javafx.beans.property.SimpleStringProperty(status);
         });
-
         statusColumn.setCellFactory(column -> new TableCell<SupplyItem, String>() {
             @Override
             protected void updateItem(String status, boolean empty) {
@@ -66,7 +74,7 @@ public class SuppliesController {
                         case "in stock":
                             setStyle("-fx-text-fill: #51cf66; -fx-font-weight: bold;");
                             break;
-                        case "concrete":
+                        case "out":
                             setStyle("-fx-text-fill: #ffd43b; -fx-font-weight: bold;");
                             break;
                         default:
@@ -79,25 +87,38 @@ public class SuppliesController {
         // Name column
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
 
-        // Quantity column - editable
+        // Quantity column (inline editable with correct delta)
         quantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
         quantityColumn.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
         quantityColumn.setOnEditCommit(event -> {
             SupplyItem item = event.getRowValue();
-            item.setQuantity(event.getNewValue());
-            updateItemStatus(item);
-            supplyRepository.adjustQuantity(item.getId(), event.getNewValue() - item.getQuantity());
+            Integer oldVal = event.getOldValue();
+            Integer newVal = event.getNewValue();
+            if (oldVal == null) oldVal = 0;
+            if (newVal == null) newVal = 0;
+
+            int delta = newVal - oldVal; // compute BEFORE mutating the item
+
+            try {
+                ObjectId id = item.getId();
+                supplyRepository.adjustQuantity(id, currentUserId(), delta);
+                item.setQuantity(newVal);
+                item.setLastRestocked(LocalDate.now()); // optional: treat edits as updates
+                updateItemStatus(item);
+                suppliesTable.refresh();
+            } catch (Exception ex) {
+                showAlert("Update failed", "Could not update quantity: " + ex.getMessage());
+                suppliesTable.refresh();
+            }
         });
 
-        // Last restocked column
-        lastRestockedColumn.setCellValueFactory(cellData -> {
-            SupplyItem item = cellData.getValue();
-            String lastRestocked = item.getLastRestocked() != null ?
-                    item.getLastRestocked().toString() : "Never";
-            return new javafx.beans.property.SimpleStringProperty(lastRestocked);
+        // Last restocked column (LocalDate -> string)
+        lastRestockedColumn.setCellValueFactory(cd -> {
+            LocalDate d = cd.getValue().getLastRestocked();
+            return new javafx.beans.property.SimpleStringProperty(d == null ? "Never" : d.toString());
         });
 
-        // Actions column with buttons
+        // Actions column
         actionsColumn.setCellFactory(param -> new TableCell<SupplyItem, Void>() {
             private final Button restockButton = new Button("Restock");
             private final Button deleteButton = new Button("Delete");
@@ -124,35 +145,29 @@ public class SuppliesController {
             @Override
             protected void updateItem(Void item, boolean empty) {
                 super.updateItem(item, empty);
-                if (empty) {
-                    setGraphic(null);
-                } else {
-                    setGraphic(pane);
-                }
+                setGraphic(empty ? null : pane);
             }
         });
 
-        // Enable table editing
+        // Table
         suppliesTable.setEditable(true);
+        suppliesTable.setItems(backing);
     }
 
     private String determineStatus(SupplyItem item) {
-        if (item.getQuantity() <= 0) {
-            return "Concrete";
-        } else if (item.getQuantity() <= item.getRefillBelow()) {
-            return "Low Supply";
-        } else {
-            return "In Stock";
-        }
+        if (item.getQuantity() <= 0) return "Out";
+        if (item.getQuantity() <= item.getRefillBelow()) return "Low Supply";
+        return "In Stock";
     }
 
     private void updateItemStatus(SupplyItem item) {
         String newStatus = determineStatus(item);
+        item.setStatus(newStatus);
 
-        // Send notification if status changed to Low Supply
+        // Notify if it transitions to Low Supply
         if ("Low Supply".equals(newStatus) && notificationService != null) {
             try {
-                // Create a simple notification method since sendSupplyAlert doesn't exist
+                // Replace with your real notification hook if available
                 System.out.println("ALERT: Low stock for " + item.getName() +
                         ". Current quantity: " + item.getQuantity());
             } catch (Exception e) {
@@ -161,10 +176,11 @@ public class SuppliesController {
         }
     }
 
+    // ===== UI actions =====
     @FXML
     private void addSupply() {
         try {
-            String name = itemField.getText().trim();
+            String name = itemField.getText() == null ? "" : itemField.getText().trim();
             int quantity = Integer.parseInt(qtyField.getText());
             int refillBelow = Integer.parseInt(thresholdField.getText());
 
@@ -173,21 +189,19 @@ public class SuppliesController {
                 return;
             }
 
-            SupplyItem newItem = new SupplyItem(java.util.UUID.randomUUID().toString(),
-                    name, quantity, refillBelow);
-            // Use upsertByName instead of save
-            supplyRepository.upsertByName(newItem);
+            // Construct a new item (id assigned in model ctor; ensure userId set there)
+            SupplyItem newItem = new SupplyItem(currentUserId(), name, quantity, refillBelow);
+            supplyRepository.upsertByName(currentUserId(), newItem);
 
-            // Reload all supplies to refresh the table
-            loadSupplies();
-
-            // Clear input fields
+            reload();
             itemField.clear();
             qtyField.clear();
             thresholdField.clear();
 
         } catch (NumberFormatException e) {
             showAlert("Error", "Please enter valid numbers for quantity and threshold.");
+        } catch (Exception ex) {
+            showAlert("Save failed", ex.getMessage());
         }
     }
 
@@ -201,16 +215,18 @@ public class SuppliesController {
         result.ifPresent(quantityStr -> {
             try {
                 int quantityToAdd = Integer.parseInt(quantityStr);
-                // Use adjustQuantity method from repository
-                supplyRepository.adjustQuantity(item.getId(), quantityToAdd);
+                if (quantityToAdd == 0) return;
 
-                // Update the item locally for display
+                supplyRepository.adjustQuantity(item.getId(), currentUserId(), quantityToAdd);
+
                 item.setQuantity(item.getQuantity() + quantityToAdd);
-                item.setLastRestocked(LocalDate.now());
-
+                item.setLastRestocked(LocalDate.now()); // timestamp restock
+                updateItemStatus(item);
                 suppliesTable.refresh();
             } catch (NumberFormatException e) {
                 showAlert("Error", "Please enter a valid number.");
+            } catch (Exception ex) {
+                showAlert("Restock failed", ex.getMessage());
             }
         });
     }
@@ -223,15 +239,23 @@ public class SuppliesController {
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
-            // Use the base repository delete method
-            supplyRepository.delete(item.getId());
-            suppliesTable.getItems().remove(item);
+            try {
+                supplyRepository.delete(item.getId(), currentUserId());
+                backing.remove(item);
+            } catch (Exception ex) {
+                showAlert("Delete failed", ex.getMessage());
+            }
         }
     }
 
-    private void loadSupplies() {
-        suppliesTable.getItems().clear();
-        suppliesTable.getItems().addAll(supplyRepository.findAll());
+    @FXML
+    private void reload() {
+        try {
+            backing.setAll(supplyRepository.findAll(currentUserId()));
+            suppliesTable.refresh();
+        } catch (Exception ex) {
+            showAlert("Load failed", ex.getMessage());
+        }
     }
 
     private void showAlert(String title, String message) {
@@ -239,6 +263,8 @@ public class SuppliesController {
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(message);
+        // ensure dialog resizes for long text
+        alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
         alert.showAndWait();
     }
 }
