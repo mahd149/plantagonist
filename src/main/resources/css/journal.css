@@ -1,0 +1,259 @@
+/* =========
+   BLACK & BOTTLE GREEN THEME JOURNAL ENTRY DIALOG
+   ========= */
+
+.root {
+    -fx-background-color: #0A0A0A;
+    -fx-text-fill: #E8F5E9;
+}
+
+.dialog-title {
+    -fx-text-fill: #E8F5E9;
+    -fx-font-size: 18px;
+    -fx-font-weight: 700;
+    -fx-font-family: "Segoe UI", "Roboto", sans-serif;
+    -fx-padding: 0 0 8 0;
+}
+
+.header-separator .line {
+    -fx-stroke: #1B3D2F;
+    -fx-stroke-width: 1;
+    -fx-padding: 8 0;
+}
+
+.info-container {
+    -fx-padding: 10 0;
+}
+
+.info-label {
+    -fx-text-fill: #7D9E87;
+    -fx-font-size: 11px;
+    -fx-font-weight: 600;
+    -fx-text-transform: uppercase;
+}
+
+.info-value {
+    -fx-text-fill: #E8F5E9;
+    -fx-font-size: 13px;
+    -fx-font-weight: 500;
+}
+
+.vertical-separator .line {
+    -fx-stroke: #1B3D2F;
+    -fx-stroke-width: 1;
+    -fx-pref-height: 25;
+}
+
+.journal-scroll {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-padding: 5 0;
+}
+
+.journal-scroll .viewport {
+    -fx-background-color: #0A0A0A;
+}
+
+.journal-scroll .scroll-bar:vertical,
+.journal-scroll .scroll-bar:horizontal {
+    -fx-background-color: #0A0A0A;
+}
+
+.journal-scroll .scroll-bar:vertical .thumb,
+.journal-scroll .scroll-bar:horizontal .thumb {
+    -fx-background-color: #1B3D2F;
+    -fx-background-radius: 4;
+}
+
+.journal-scroll .scroll-bar:vertical .thumb:hover,
+.journal-scroll .scroll-bar:horizontal .thumb:hover {
+    -fx-background-color: #2A5D47;
+}
+
+.form-section {
+    -fx-padding: 8 0;
+}
+
+.section-title {
+    -fx-text-fill: #E8F5E9;
+    -fx-font-size: 14px;
+    -fx-font-weight: 600;
+    -fx-padding: 0 0 6 0;
+}
+
+.hint-text {
+    -fx-text-fill: #7D9E87;
+    -fx-font-size: 11px;
+    -fx-font-style: normal;
+}
+
+.content-separator .line {
+    -fx-stroke: #1B3D2F;
+    -fx-stroke-width: 1;
+    -fx-padding: 8 0;
+}
+
+.photo-button {
+    -fx-background-color: #1B3D2F;
+    -fx-text-fill: #E8F5E9;
+    -fx-font-weight: 500;
+    -fx-font-size: 12px;
+    -fx-padding: 6 12;
+    -fx-background-radius: 4;
+    -fx-border-radius: 4;
+    -fx-border-color: #2A5D47;
+    -fx-border-width: 1;
+    -fx-cursor: hand;
+}
+
+.photo-button:hover {
+    -fx-background-color: #2A5D47;
+    -fx-border-color: #3A7D5F;
+}
+
+.photo-button:pressed {
+    -fx-background-color: #1B3D2F;
+}
+
+.photo-preview {
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 6, 0, 0, 2);
+    -fx-background-radius: 4;
+    -fx-border-radius: 4;
+    -fx-border-color: #1B3D2F;
+    -fx-border-width: 1;
+}
+
+.journal-textarea {
+    -fx-background-color: #1B3D2F;
+    -fx-text-fill: #E8F5E9;
+    -fx-prompt-text-fill: #7D9E87;
+    -fx-background-radius: 4;
+    -fx-border-radius: 4;
+    -fx-border-color: #2A5D47;
+    -fx-border-width: 1;
+    -fx-padding: 8;
+    -fx-font-size: 13px;
+    -fx-font-family: "Segoe UI", "Roboto", sans-serif;
+}
+
+.journal-textarea:focused {
+    -fx-border-color: #3A7D5F;
+    -fx-border-width: 1;
+    -fx-effect: dropshadow(gaussian, rgba(58, 125, 95, 0.3), 6, 0, 0, 0);
+}
+
+.journal-textarea .content {
+    -fx-background-color: #1B3D2F;
+}
+
+.quick-action-btn {
+    -fx-background-color: #1B3D2F;
+    -fx-text-fill: #E8F5E9;
+    -fx-font-weight: 500;
+    -fx-font-size: 11px;
+    -fx-padding: 4 8;
+    -fx-background-radius: 12;
+    -fx-border-radius: 12;
+    -fx-border-color: #2A5D47;
+    -fx-border-width: 1;
+    -fx-cursor: hand;
+}
+
+.quick-action-btn:hover {
+    -fx-background-color: #2A5D47;
+    -fx-border-color: #3A7D5F;
+}
+
+.quick-action-btn:pressed {
+    -fx-background-color: #1B3D2F;
+}
+
+.button-bar {
+    -fx-padding: 12 0 0 0;
+}
+
+.primary-button {
+    -fx-background-color: #3A7D5F;
+    -fx-text-fill: white;
+    -fx-font-weight: 600;
+    -fx-font-size: 13px;
+    -fx-padding: 8 16;
+    -fx-background-radius: 4;
+    -fx-border-radius: 4;
+    -fx-cursor: hand;
+    -fx-min-width: 90;
+}
+
+.primary-button:hover {
+    -fx-background-color: #2A5D47;
+}
+
+.primary-button:pressed {
+    -fx-background-color: #1B3D2F;
+}
+
+.secondary-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #7D9E87;
+    -fx-font-weight: 500;
+    -fx-font-size: 13px;
+    -fx-padding: 8 16;
+    -fx-background-radius: 4;
+    -fx-border-radius: 4;
+    -fx-border-color: #1B3D2F;
+    -fx-border-width: 1;
+    -fx-cursor: hand;
+    -fx-min-width: 70;
+}
+
+.secondary-button:hover {
+    -fx-background-color: #1B3D2F;
+    -fx-text-fill: #E8F5E9;
+}
+
+.secondary-button:pressed {
+    -fx-background-color: #2A5D47;
+}
+
+/* Ensure all text is visible */
+.label {
+    -fx-text-fill: #E8F5E9;
+}
+
+.text-area {
+    -fx-text-fill: #E8F5E9;
+}
+
+/* Scroll pane styling */
+.scroll-pane {
+    -fx-background-color: transparent;
+}
+
+.scroll-pane .viewport {
+    -fx-background-color: transparent;
+}
+
+/* Focus styles */
+*:focused {
+    -fx-focus-color: #3A7D5F;
+    -fx-faint-focus-color: rgba(58, 125, 95, 0.2);
+}
+
+/* Form field styling for consistency */
+.text-field, .combo-box, .date-picker {
+    -fx-background-color: #1B3D2F;
+    -fx-text-fill: #E8F5E9;
+    -fx-prompt-text-fill: #7D9E87;
+    -fx-background-radius: 4;
+    -fx-border-radius: 4;
+    -fx-border-color: #2A5D47;
+    -fx-border-width: 1;
+    -fx-padding: 6 8;
+    -fx-font-size: 13px;
+}
+
+.text-field:focused, .combo-box:focused, .date-picker:focused {
+    -fx-border-color: #3A7D5F;
+    -fx-border-width: 1;
+    -fx-effect: dropshadow(gaussian, rgba(58, 125, 95, 0.3), 6, 0, 0, 0);
+}

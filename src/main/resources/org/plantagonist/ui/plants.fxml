@@ -3,14 +3,18 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.Region?>
 
 <!-- Root scroll container -->
-
 <ScrollPane fitToWidth="true" hbarPolicy="NEVER" prefHeight="82.0" prefWidth="658.0" vbarPolicy="AS_NEEDED" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.plantagonist.ui.PlantsController">
     <content>
         <VBox spacing="14" styleClass="pad-16">
@@ -28,10 +32,44 @@
                 <Button onAction="#reload" styleClass="nav-btn" text="Refresh" />
             </HBox>
 
-            <!-- Cards grid (3 per row via preferred card width + wrapping) -->
-            <FlowPane fx:id="grid" hgap="12" prefWidth="1200.0" styleClass="grid-12" vgap="12">
-                <!-- Cards are added dynamically from controller -->
-            </FlowPane>
+            <!-- TabPane for Plants and Journal -->
+            <TabPane fx:id="plantsTabPane" styleClass="plants-tab-pane">
+                <!-- Plants Tab -->
+                <Tab text="Plants" closable="false">
+                    <ScrollPane fitToWidth="true" vbarPolicy="AS_NEEDED">
+                        <FlowPane fx:id="grid" hgap="12" prefWidth="1200.0" styleClass="grid-12" vgap="12">
+                            <!-- Cards are added dynamically from controller -->
+                        </FlowPane>
+                    </ScrollPane>
+                </Tab>
+
+                <!-- Journal Tab -->
+                <Tab text="Journal" closable="false">
+                    <ScrollPane fitToWidth="true" vbarPolicy="AS_NEEDED">
+                        <VBox styleClass="journal-tab-content">
+                            <!-- Journal Header -->
+                            <Label text="Plant Journal" styleClass="journal-header"/>
+
+                            <!-- Filter and Actions -->
+                            <HBox styleClass="journal-actions-clean" spacing="15">
+                                <VBox styleClass="filter-section" spacing="5">
+                                    <Label text="Filter by Plant:" styleClass="filter-label"/>
+                                    <ComboBox fx:id="plantSelector" styleClass="plant-selector-clean" prefWidth="250"/>
+                                </VBox>
+                                <Region HBox.hgrow="ALWAYS"/>
+                                <Button fx:id="addJournalEntryBtn" text="Add New Entry" styleClass="add-entry-btn-clean"/>
+                            </HBox>
+
+                            <Separator styleClass="journal-separator-clean"/>
+
+                            <!-- Recent Entries -->
+                            <Label text="Recent Entries" styleClass="recent-entries-header"/>
+
+                            <VBox fx:id="journalEntriesContainer" styleClass="journal-entries-clean"/>
+                        </VBox>
+                    </ScrollPane>
+                </Tab>
+            </TabPane>
         </VBox>
     </content>
 </ScrollPane>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox spacing="0" prefWidth="450" prefHeight="500" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.plantagonist.ui.JournalEntryDialogController">
+    <padding>
+        <Insets top="15" right="15" bottom="15" left="15"/>
+    </padding>
+
+    <Label text="Add Journal Entry" styleClass="dialog-title"/>
+
+    <Separator styleClass="header-separator"/>
+
+    <HBox spacing="10" alignment="CENTER_LEFT" styleClass="info-container">
+        <VBox spacing="2">
+            <Label text="ENTRY DATE" styleClass="info-label"/>
+            <Label fx:id="dateLabel" styleClass="info-value"/>
+        </VBox>
+
+        <Separator orientation="VERTICAL" styleClass="vertical-separator"/>
+
+        <VBox spacing="2">
+            <Label text="PLANT" styleClass="info-label"/>
+            <Label fx:id="plantNameLabel" styleClass="info-value"/>
+        </VBox>
+    </HBox>
+
+    <ScrollPane fitToWidth="true" styleClass="journal-scroll" VBox.vgrow="ALWAYS">
+        <VBox spacing="12">
+            <!-- Photo upload section -->
+            <VBox spacing="8" styleClass="form-section">
+                <Label text="Upload Photo" styleClass="section-title"/>
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <Button fx:id="uploadPhotoBtn" text="Choose Photo" styleClass="photo-button"/>
+                    <ImageView fx:id="photoImageView" fitWidth="80" fitHeight="80" preserveRatio="true" styleClass="photo-preview"/>
+                </HBox>
+                <Label text="Optional - Add a visual record" styleClass="hint-text"/>
+            </VBox>
+
+            <Separator styleClass="content-separator"/>
+
+            <!-- Journal content section -->
+            <VBox spacing="8" styleClass="form-section">
+                <Label text="Journal Notes" styleClass="section-title"/>
+                <TextArea fx:id="contentTextArea" styleClass="journal-textarea"
+                          promptText="Describe your plant's progress, any changes you made, or observations..."
+                          wrapText="true" prefRowCount="4"/>
+                <Label text="Record your observations and care activities" styleClass="hint-text"/>
+            </VBox>
+
+            <Separator styleClass="content-separator"/>
+
+            <!-- Quick actions -->
+            <VBox spacing="8" styleClass="form-section">
+                <Label text="Quick Actions" styleClass="section-title"/>
+                <HBox spacing="8" alignment="CENTER_LEFT">
+                    <Button fx:id="wateredBtn" text="Watered" styleClass="quick-action-btn"/>
+                    <Button fx:id="fertilizedBtn" text="Fertilized" styleClass="quick-action-btn"/>
+                    <Button fx:id="prunedBtn" text="Pruned" styleClass="quick-action-btn"/>
+                    <Button fx:id="repottedBtn" text="Repotted" styleClass="quick-action-btn"/>
+                </HBox>
+                <Label text="Tap to add common care activities" styleClass="hint-text"/>
+            </VBox>
+        </VBox>
+    </ScrollPane>
+
+    <HBox spacing="8" alignment="CENTER_RIGHT" styleClass="button-bar">
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button fx:id="cancelBtn" text="Cancel" styleClass="secondary-button"/>
+        <Button fx:id="saveBtn" text="Save Entry" styleClass="primary-button"/>
+    </HBox>
+</VBox>

@@ -10,13 +10,17 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.plantagonist.core.auth.CurrentUser;
 import org.plantagonist.core.models.Plant;
+import org.plantagonist.core.models.JournalEntry;
 import org.plantagonist.core.repositories.PlantRepository;
+import org.plantagonist.core.repositories.JournalRepository;
 
 import java.io.File;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -30,8 +34,14 @@ public class PlantsController {
 
     @FXML private TextField searchField;
     @FXML private FlowPane grid;
+    @FXML private ComboBox<Plant> plantSelector;
+    @FXML private VBox journalEntriesContainer;
+    @FXML private Button addJournalEntryBtn;
 
-    // NEW fields
+    // NEW fields for journal
+    private final JournalRepository journalRepo = new JournalRepository();
+    private final ObservableList<JournalEntry> journalEntries = FXCollections.observableArrayList();
+    private Plant selectedPlantForJournal;
 
     private final ObservableList<Plant> backing = FXCollections.observableArrayList();
     private final PlantRepository repo = new PlantRepository();
@@ -39,10 +49,9 @@ public class PlantsController {
     private final CareTaskRepository taskRepo = new CareTaskRepository();
     private final TaskService taskService = new TaskService(repo, taskRepo, new WeatherService(), new SuggestionService());
 
-
-    // Card layout constants (tuned for 3 per row on common widths)
-    private static final double CARD_WIDTH = 320;   // each card’s preferred width
-    private static final double IMAGE_HEIGHT = 180; // hero image height
+    // Card layout constants
+    private static final double CARD_WIDTH = 320;
+    private static final double IMAGE_HEIGHT = 180;
 
     @FXML
     public void initialize() {
@@ -55,11 +64,181 @@ public class PlantsController {
             searchField.textProperty().addListener((obs, old, q) -> render());
         }
 
-        // FlowPane should wrap cards; ensure it uses available width
-        grid.setPrefWrapLength(CARD_WIDTH * 3 + 24); // 3 cards + gaps
+        // FlowPane should wrap cards
+        grid.setPrefWrapLength(CARD_WIDTH * 3 + 24);
+
+        // Initialize journal section
+        initializeJournalSection();
     }
 
-    // ===== Buttons =====
+    private void initializeJournalSection() {
+        if (plantSelector != null) {
+            // Populate plant selector
+            plantSelector.setItems(backing);
+            plantSelector.setCellFactory(param -> new ListCell<Plant>() {
+                @Override
+                protected void updateItem(Plant plant, boolean empty) {
+                    super.updateItem(plant, empty);
+                    if (empty || plant == null) {
+                        setText(null);
+                    } else {
+                        setText(plant.getName() + " (" + plant.getSpecies() + ")");
+                    }
+                }
+            });
+            plantSelector.setButtonCell(new ListCell<Plant>() {
+                @Override
+                protected void updateItem(Plant plant, boolean empty) {
+                    super.updateItem(plant, empty);
+                    if (empty || plant == null) {
+                        setText("All Plants");
+                    } else {
+                        setText(plant.getName() + " (" + plant.getSpecies() + ")");
+                    }
+                }
+            });
+
+            plantSelector.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
+                selectedPlantForJournal = newVal;
+                loadJournalEntries();
+            });
+        }
+
+        if (addJournalEntryBtn != null) {
+            addJournalEntryBtn.setOnAction(e -> openJournalEntryDialog());
+        }
+
+        // Load initial journal entries
+        loadJournalEntries();
+    }
+
+    private void loadJournalEntries() {
+        String userId = CurrentUser.get().getId();
+        journalEntries.clear();
+
+        if (selectedPlantForJournal != null) {
+            // Load entries for selected plant
+            List<JournalEntry> entries = journalRepo.findByUserIdAndPlantId(userId, selectedPlantForJournal.getId());
+            journalEntries.addAll(entries);
+        } else {
+            // Load all entries for user
+            List<JournalEntry> entries = journalRepo.findByUserId(userId);
+            journalEntries.addAll(entries);
+        }
+
+        renderJournalEntries();
+    }
+
+    private void renderJournalEntries() {
+        if (journalEntriesContainer == null) return;
+
+        journalEntriesContainer.getChildren().clear();
+
+        if (journalEntries.isEmpty()) {
+            Label emptyLabel = new Label("No journal entries yet.\nClick 'Add New Entry' to start your plant journal!");
+            emptyLabel.getStyleClass().addAll("journal-empty", "text-center");
+            emptyLabel.setAlignment(javafx.geometry.Pos.CENTER);
+            emptyLabel.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
+            journalEntriesContainer.getChildren().add(emptyLabel);
+            return;
+        }
+
+        for (JournalEntry entry : journalEntries) {
+            journalEntriesContainer.getChildren().add(createJournalEntryCard(entry));
+        }
+    }
+
+    private Region createJournalEntryCard(JournalEntry entry) {
+        HBox card = new HBox();
+        card.getStyleClass().add("journal-entry-card-clean");
+        card.setMaxWidth(600);
+
+        // Left side - Text content
+        VBox textContent = new VBox(12);
+        textContent.getStyleClass().add("entry-content-side");
+        textContent.setPadding(new Insets(20));
+        textContent.setPrefWidth(400);
+
+        // Date
+        Label dateLabel = new Label(entry.getFormattedDate());
+        dateLabel.getStyleClass().add("entry-date-clean");
+
+        // Plant name if available
+        if (entry.getPlantName() != null && !entry.getPlantName().isEmpty()) {
+            Label plantLabel = new Label("• " + entry.getPlantName());
+            plantLabel.getStyleClass().add("entry-date-clean");
+            plantLabel.setStyle("-fx-text-fill: #7A8F95 !important;");
+            HBox header = new HBox(8, dateLabel, plantLabel);
+            header.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
+            textContent.getChildren().add(header);
+        } else {
+            textContent.getChildren().add(dateLabel);
+        }
+
+        // Content
+        Label contentLabel = new Label(entry.getContent());
+        contentLabel.getStyleClass().add("entry-content-clean");
+        contentLabel.setWrapText(true);
+        contentLabel.setMaxWidth(360);
+        contentLabel.setLineSpacing(5);
+        textContent.getChildren().add(contentLabel);
+
+        card.getChildren().add(textContent);
+
+        // Right side - Photo if available
+        if (entry.getPhotoPath() != null && !entry.getPhotoPath().isEmpty()) {
+            File imgFile = new File(entry.getPhotoPath());
+            if (imgFile.exists()) {
+                try {
+                    VBox photoContainer = new VBox();
+                    photoContainer.getStyleClass().add("entry-photo-side");
+                    photoContainer.setPadding(new Insets(15));
+                    photoContainer.setPrefWidth(200);
+
+                    ImageView photoView = new ImageView();
+                    photoView.setFitWidth(150);
+                    photoView.setFitHeight(150);
+                    photoView.setPreserveRatio(true);
+                    photoView.setSmooth(true);
+                    photoView.getStyleClass().add("journal-photo-clean");
+                    photoView.setImage(new Image(imgFile.toURI().toString()));
+
+                    photoContainer.getChildren().add(photoView);
+                    card.getChildren().add(photoContainer);
+                } catch (Exception e) {
+                    System.out.println("Failed to load journal photo: " + e.getMessage());
+                }
+            }
+        }
+
+        return card;
+    }
+
+    private void openJournalEntryDialog() {
+        try {
+            Stage owner = getWindow();
+            JournalEntryDialogController.openDialog(owner, selectedPlantForJournal, this::saveJournalEntry);
+        } catch (Exception e) {
+            showError("Couldn't open journal entry", e.getMessage());
+        }
+    }
+
+    private void saveJournalEntry(JournalEntry entry) {
+        try {
+            entry.setUserId(CurrentUser.get().getId());
+            if (selectedPlantForJournal != null) {
+                entry.setPlantId(selectedPlantForJournal.getId());
+                entry.setPlantName(selectedPlantForJournal.getName());
+            }
+
+            journalRepo.insertOne(entry);
+            loadJournalEntries();
+        } catch (Exception e) {
+            showError("Couldn't save journal entry", e.getMessage());
+        }
+    }
+
+    // ===== Existing plant methods =====
     @FXML
     private void addPlant() {
         try {
@@ -71,30 +250,31 @@ public class PlantsController {
                 created.setId(java.util.UUID.randomUUID().toString());
             }
 
-            // SET USER ID ON NEW PLANT ← ADD THIS
             created.setUserId(CurrentUser.get().getId());
-
             repo.insertOne(created);
             reload();
-            taskService.syncAllWaterTasks(CurrentUser.get().getId()); // ← PASS USER ID
+            taskService.syncAllWaterTasks(CurrentUser.get().getId());
 
         } catch (Throwable t) {
             showError("Couldn't add plant", t.getMessage());
         }
     }
+
     @FXML
     private void reload() {
         String userId = CurrentUser.get().getId();
-        List<Plant> all = repo.findByUserId(userId); // ← CHANGE THIS
+        List<Plant> all = repo.findByUserId(userId);
         backing.setAll(all);
         render();
 
-        // Pass userId to task service
+        // Refresh plant selector if it exists
+        if (plantSelector != null) {
+            plantSelector.setItems(backing);
+        }
+
         taskService.syncAllWaterTasks(userId);
     }
 
-
-    // ===== Rendering cards =====
     private void render() {
         String needle = norm(searchField != null ? searchField.getText() : "");
         List<Plant> items = backing.stream()
@@ -108,6 +288,7 @@ public class PlantsController {
         if (needle.isEmpty()) return true;
         return contains(p.getName(), needle) || contains(p.getSpecies(), needle);
     }
+
     private static boolean contains(String s, String n) { return s != null && s.toLowerCase().contains(n); }
     private static String norm(String s) { return s == null ? "" : s.trim().toLowerCase(); }
 
@@ -121,7 +302,7 @@ public class PlantsController {
 
         // Image hero (with rounded clip)
         ImageView iv = new ImageView();
-        iv.setFitWidth(CARD_WIDTH - 24); // account for padding
+        iv.setFitWidth(CARD_WIDTH - 24);
         iv.setFitHeight(IMAGE_HEIGHT);
         iv.setPreserveRatio(false);
         iv.setSmooth(true);
@@ -130,7 +311,6 @@ public class PlantsController {
         if (imgFile != null && imgFile.exists()) {
             iv.setImage(new Image(imgFile.toURI().toString(), iv.getFitWidth(), IMAGE_HEIGHT, false, true, true));
         } else {
-            // fallback: subtle empty state (no external asset required)
             iv.setImage(new Image(
                     getClass().getResource("/org/plantagonist/ui/empty.png") != null
                             ? getClass().getResource("/org/plantagonist/ui/empty.png").toExternalForm()
@@ -196,7 +376,6 @@ public class PlantsController {
         return last.plusDays(every).toString();
     }
 
-    // ===== CRUD helpers =====
     private void edit(Plant target) {
         try {
             if (target == null || target.getId() == null || target.getId().isBlank()) {
@@ -208,31 +387,22 @@ public class PlantsController {
             Plant edited = PlantFormController.openDialog(getWindow(), workingCopy);
             if (edited == null) return;
 
-            // Always preserve the original _id
             edited.setId(target.getId());
-            edited.setUserId(target.getUserId()); // Preserve userId
+            edited.setUserId(target.getUserId());
 
-
-            repo.replaceById(target.getId(), edited);  // uses _id under the hood
-            reload();                                   // refresh plants UI
-
-            taskService.syncAllWaterTasks(CurrentUser.get().getId());            // recompute tasks after save
-            // If your dashboard shows tasks, refresh them too:
-//            loadTasks();
-            // And (optional) streaks/badges & timestamp:
-            // refreshStreaks();
-//            updateTimestamp();
+            repo.replaceById(target.getId(), edited);
+            reload();
+            taskService.syncAllWaterTasks(CurrentUser.get().getId());
 
         } catch (Exception t) {
             showError("Couldn't edit plant", t.getMessage());
         }
     }
 
-
     private void delete(Plant p) {
         Alert a = new Alert(Alert.AlertType.CONFIRMATION);
         a.setTitle("Remove Plant");
-        a.setHeaderText("Delete “" + Objects.toString(p.getName(), "Unnamed") + "”?");
+        a.setHeaderText("Delete " + Objects.toString(p.getName(), "Unnamed") + "?");
         a.setContentText("This will remove the plant from your list.");
         a.showAndWait().ifPresent(btn -> {
             if (btn == ButtonType.OK) {
