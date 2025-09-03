@@ -33,6 +33,11 @@ public class SupplyRepository extends BaseRepository<SupplyItem> {
         coll.updateOne(filter, Updates.inc("quantity", delta));
     }
 
+    public void delete(String id) {
+        coll.deleteOne(Filters.eq("id", id));
+    }
+
+
     /** Upsert by name (optional helper). */
     public void upsertByName(SupplyItem item) {
         coll.updateOne(Filters.eq("name", item.getName()),

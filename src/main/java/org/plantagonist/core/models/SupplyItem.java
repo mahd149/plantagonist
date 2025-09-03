@@ -1,10 +1,14 @@
 package org.plantagonist.core.models;
 
+import java.time.LocalDate;
+
 public class SupplyItem {
-    private String id;     // uuid
+    private String id;
     private String name;
     private int quantity;
     private int refillBelow;
+    private String status;
+    private LocalDate lastRestocked;
 
     public SupplyItem() {}
 
@@ -13,9 +17,10 @@ public class SupplyItem {
         this.name = name;
         this.quantity = quantity;
         this.refillBelow = refillBelow;
+        this.lastRestocked = LocalDate.now();
     }
 
-    // ----- getters & setters -----
+    // Getters and setters
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
 
@@ -27,4 +32,10 @@ public class SupplyItem {
 
     public int getRefillBelow() { return refillBelow; }
     public void setRefillBelow(int refillBelow) { this.refillBelow = refillBelow; }
+
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
+
+    public LocalDate getLastRestocked() { return lastRestocked; }
+    public void setLastRestocked(LocalDate lastRestocked) { this.lastRestocked = lastRestocked; }
 }

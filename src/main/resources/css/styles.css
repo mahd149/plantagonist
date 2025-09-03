@@ -382,6 +382,77 @@
     -fx-text-alignment: center;
 }
 
+/* Supplies Page Specific Styles */
+.supplies-table {
+    -fx-background-color: -color-elev-1;
+    -fx-border-color: -color-stroke;
+    -fx-border-width: 1;
+    -fx-background-radius: 12;
+    -fx-border-radius: 12;
+}
+
+.supplies-table .table-row-cell {
+    -fx-border-color: transparent;
+    -fx-background-insets: 0;
+}
+
+.supplies-table .table-row-cell:even {
+    -fx-background-color: rgba(255, 255, 255, 0.02);
+}
+
+.supplies-table .table-row-cell:odd {
+    -fx-background-color: rgba(255, 255, 255, 0.01);
+}
+
+.supplies-table .table-row-cell:selected {
+    -fx-background-color: rgba(26, 77, 46, 0.3);
+}
+
+.supplies-table .column-header {
+    -fx-background-color: -color-surface;
+    -fx-border-color: -color-stroke;
+    -fx-border-width: 0 0 1 0;
+    -fx-padding: 8 12;
+}
+
+.supplies-table .table-cell {
+    -fx-border-color: transparent;
+    -fx-padding: 8 12;
+    -fx-alignment: CENTER_LEFT;
+}
+
+/* Status badges */
+.status-low {
+    -fx-text-fill: #ff6b6b;
+    -fx-font-weight: bold;
+}
+
+.status-instock {
+    -fx-text-fill: #51cf66;
+    -fx-font-weight: bold;
+}
+
+.status-concrete {
+    -fx-text-fill: #ffd43b;
+    -fx-font-weight: bold;
+}
+
+/* Danger button style */
+.danger {
+    -fx-background-color: #e03131;
+    -fx-text-fill: white;
+}
+
+.danger:hover {
+    -fx-background-color: #c92a2a;
+}
+
+/* Text field adjustments */
+.text-field {
+    -fx-background-radius: 8;
+    -fx-padding: 6 10;
+}
+
 /* SETTINGS PAGE SPECIFIC */
 .settings-container {
     -fx-background-color: -color-bg; /* Dark background */
