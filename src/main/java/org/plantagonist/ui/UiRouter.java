@@ -1,6 +1,7 @@
 package org.plantagonist.ui;
 
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -11,8 +12,7 @@ public final class UiRouter {
     // Show Login screen
     public static void showLogin(Stage stage) {
         stage.setScene(new Scene(load("login.fxml")));
-        stage.centerOnScreen(); // ← ADD THIS
-
+        stage.centerOnScreen();
         stage.show();
     }
 
@@ -22,8 +22,7 @@ public final class UiRouter {
             FXMLLoader loader = new FXMLLoader(UiRouter.class.getResource("/org/plantagonist/ui/main.fxml"));
             Scene scene = new Scene(loader.load(), 1080, 700);
             stage.setScene(scene);
-            stage.centerOnScreen(); // ← ADD THIS
-
+            stage.centerOnScreen();
             stage.show();
         } catch (Exception e) {
             throw new RuntimeException("Failed to load main application", e);
@@ -33,12 +32,40 @@ public final class UiRouter {
     // Show Registration screen
     public static void showRegister(Stage stage) {
         stage.setScene(new Scene(load("register.fxml")));
-        stage.centerOnScreen(); // ← ADD THIS
-
+        stage.centerOnScreen();
         stage.show();
     }
 
-    private static javafx.scene.Parent load(String fxml) {
+    // Show Care Log screen
+    public static void showCareLog(Stage stage) {
+        try {
+            FXMLLoader loader = new FXMLLoader(UiRouter.class.getResource("/org/plantagonist/ui/care_log.fxml"));
+            Scene scene = new Scene(loader.load(), 1000, 700);
+            stage.setScene(scene);
+            stage.setTitle("Plant Care Log");
+            stage.centerOnScreen();
+            stage.show();
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to load care log", e);
+        }
+    }
+
+    // Show Care Log screen from existing stage (for navigation from main app)
+    public static void showCareLog() {
+        Stage stage = new Stage();
+        try {
+            FXMLLoader loader = new FXMLLoader(UiRouter.class.getResource("/org/plantagonist/ui/care_log.fxml"));
+            Scene scene = new Scene(loader.load(), 1000, 700);
+            stage.setScene(scene);
+            stage.setTitle("Plant Care Log");
+            stage.centerOnScreen();
+            stage.show();
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to load care log", e);
+        }
+    }
+
+    private static Parent load(String fxml) {
         try {
             return FXMLLoader.load(UiRouter.class.getResource("/org/plantagonist/ui/" + fxml));
         } catch (Exception e) {

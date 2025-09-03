@@ -453,6 +453,7 @@
     -fx-padding: 6 10;
 }
 
+<<<<<<< HEAD
 /* SETTINGS PAGE SPECIFIC */
 .settings-container {
     -fx-background-color: -color-bg; /* Dark background */
@@ -488,3 +489,152 @@
     -fx-background-color: -color-surface;
     -fx-text-fill: -color-text;
 }
+=======
+/* =========
+   CARE LOG SPECIFIC STYLES
+   ========= */
+
+/* Action buttons */
+.action-btn {
+    -fx-background-color: -color-primary;
+    -fx-text-fill: white;
+    -fx-font-weight: 600;
+    -fx-font-size: 14px;
+    -fx-padding: 12 20;
+    -fx-background-radius: -radius-squircle;
+    -fx-effect: -shadow-1;
+    -fx-border-color: transparent;
+}
+
+.action-btn:hover {
+    -fx-background-color: -color-primary-2;
+    -fx-effect: -shadow-2;
+}
+
+.action-btn:pressed {
+    -fx-background-color: -color-primary-3;
+}
+
+/* Status badges for tasks */
+.status-due {
+    -fx-text-fill: #FFD43B;
+    -fx-font-weight: bold;
+}
+
+.status-today {
+    -fx-text-fill: #51CF66;
+    -fx-font-weight: bold;
+}
+
+.status-upcoming {
+    -fx-text-fill: #339AF0;
+    -fx-font-weight: bold;
+}
+
+.status-done {
+    -fx-text-fill: #868E96;
+    -fx-font-weight: bold;
+}
+
+.status-missed {
+    -fx-text-fill: #FF6B6B;
+    -fx-font-weight: bold;
+}
+
+.status-cancelled {
+    -fx-text-fill: #868E96;
+    -fx-font-weight: bold;
+    -fx-strikethrough: true;
+}
+
+/* Plant fact banner */
+.plant-fact-banner {
+    -fx-background-color: linear-gradient(to right, #1A4D2E, #23633C);
+    -fx-padding: 15;
+    -fx-background-radius: 18 18 0 0;
+}
+
+/* Notification panel */
+.notification-panel {
+    -fx-background-color: #2A1E1E;
+    -fx-border-color: #FF6B6B;
+    -fx-border-width: 2;
+    -fx-border-radius: 12;
+    -fx-background-radius: 12;
+    -fx-padding: 15;
+}
+
+/* Table action buttons */
+.table-btn {
+    -fx-font-size: 11px;
+    -fx-padding: 4 8;
+    -fx-background-radius: -radius-pill;
+}
+
+.table-btn.accent {
+    -fx-background-color: #51CF66;
+    -fx-text-fill: white;
+}
+
+.table-btn.warning {
+    -fx-background-color: #FFD43B;
+    -fx-text-fill: black;
+}
+
+.table-btn.danger {
+    -fx-background-color: #FF6B6B;
+    -fx-text-fill: white;
+}
+
+/* Tab styling */
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-background-color: -color-surface;
+}
+
+.tab-pane .tab {
+    -fx-background-color: -color-elev-1;
+    -fx-background-radius: 12 12 0 0;
+    -fx-border-color: -color-stroke;
+    -fx-border-width: 1 1 0 1;
+}
+
+.tab-pane .tab:selected {
+    -fx-background-color: -color-bg;
+    -fx-border-color: -color-primary;
+}
+
+.tab-pane .tab .tab-label {
+    -fx-text-fill: -color-text;
+    -fx-font-weight: 600;
+}
+
+/* Quick stats cards */
+.stats-card {
+    -fx-background-color: -color-elev-1;
+    -fx-background-radius: 12;
+    -fx-border-radius: 12;
+    -fx-border-color: -color-stroke;
+    -fx-padding: 15;
+    -fx-effect: -shadow-1;
+}
+
+.stats-number {
+    -fx-font-size: 24px;
+    -fx-font-weight: 800;
+    -fx-text-fill: -color-primary;
+}
+
+.stats-label {
+    -fx-font-size: 12px;
+    -fx-text-fill: -color-subtext;
+}
+
+/* Empty state messages */
+.empty-state {
+    -fx-text-fill: -color-muted;
+    -fx-font-size: 14px;
+    -fx-font-style: italic;
+    -fx-padding: 40;
+    -fx-alignment: center;
+}
+>>>>>>> 9219741 (added working supply and carelog page)
