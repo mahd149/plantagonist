@@ -1,11 +1,15 @@
 package org.plantagonist.ui;
 
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import org.plantagonist.core.auth.CurrentUser;
 import org.plantagonist.core.models.UserProfile;
 import org.plantagonist.core.services.AuthService;
+
+import java.util.Arrays;
+import java.util.regex.Pattern;
 
 public class RegisterController {
 
@@ -14,54 +18,85 @@ public class RegisterController {
     @FXML private PasswordField passwordField;
     @FXML private PasswordField confirmPasswordField;
     @FXML private Label errorLabel;
+    @FXML private Button registerButton;          // (hook up in FXML)
+    @FXML private ProgressIndicator spinner;      // (optional, hook up in FXML)
 
     private final AuthService auth = new AuthService();
+    private static final Pattern EMAIL_RX =
+            Pattern.compile("^[^\\s@]+@[^\\s@]+\\.[^\\s@]{2,}$");
 
     @FXML
     private void onRegister() {
-        String email = emailField.getText().trim();
-        String username = usernameField.getText().trim();
-        char[] password = passwordField.getText().toCharArray();
-        char[] confirmPassword = confirmPasswordField.getText().toCharArray();
+        errorLabel.setText("");
 
-        // Validate input fields
-        if (email.isEmpty() || username.isEmpty()) {
-            errorLabel.setText("Email and username are required.");
-            return;
-        }
-
-        if (password.length < 6) {
-            errorLabel.setText("Password must be at least 6 characters.");
-            return;
-        }
-
-        if (!new String(password).equals(new String(confirmPassword))) {
-            errorLabel.setText("Passwords do not match.");
-            return;
-        }
+        final String email = emailField.getText().trim();
+        final String username = usernameField.getText().trim();
+        final char[] password = passwordField.getText().toCharArray();
+        final char[] confirmPassword = confirmPasswordField.getText().toCharArray();
 
         try {
-            // Register the user
-            UserProfile newUser = auth.register(email, username, password);
+            // validations...
+            if (email.isEmpty() || username.isEmpty()) { errorLabel.setText("Email and username are required."); return; }
+            if (!EMAIL_RX.matcher(email).matches())   { errorLabel.setText("Please enter a valid email address."); return; }
+            if (password.length < 6)                  { errorLabel.setText("Password must be at least 6 characters."); return; }
+            if (!java.util.Arrays.equals(password, confirmPassword)) {
+                errorLabel.setText("Passwords do not match."); return;
+            }
 
-            // Set the current user
-            CurrentUser.set(newUser);
+            // IMPORTANT: make a COPY for the worker to consume
+            final char[] pwdForWorker = java.util.Arrays.copyOf(password, password.length);
 
-            // CHANGE: Navigate to the main application instead of dashboard
-            UiRouter.showMainApp((Stage) emailField.getScene().getWindow());
+            Task<UserProfile> task = new Task<>() {
+                @Override protected UserProfile call() throws Exception {
+                    return auth.register(email, username, pwdForWorker);
+                }
+            };
 
-        } catch (Exception e) {
-            errorLabel.setText(e.getMessage());
+            task.setOnRunning(e -> {
+                if (spinner != null) spinner.setVisible(true);
+                if (registerButton != null) registerButton.setDisable(true);
+            });
+
+            task.setOnSucceeded(e -> {
+                if (spinner != null) spinner.setVisible(false);
+                if (registerButton != null) registerButton.setDisable(false);
+
+                UserProfile newUser = task.getValue();
+                CurrentUser.set(newUser);
+
+                // Navigate
+                UiRouter.showMainApp((Stage) emailField.getScene().getWindow());
+
+                // Clear UI fields (NOW it's safe)
+                passwordField.clear();
+                confirmPasswordField.clear();
+            });
+
+            task.setOnFailed(e -> {
+                if (spinner != null) spinner.setVisible(false);
+                if (registerButton != null) registerButton.setDisable(false);
+
+                Throwable ex = task.getException();
+                errorLabel.setText(ex != null ? ex.getMessage() : "Registration failed.");
+                // Also clear UI fields here
+                passwordField.clear();
+                confirmPasswordField.clear();
+            });
+
+            new Thread(task, "register-user").start();
+
         } finally {
-            // Clean up password field (security)
-            java.util.Arrays.fill(password, '\0');
-            java.util.Arrays.fill(confirmPassword, '\0');
+            // DO NOT wipe the arrays here — it races with the background task.
+            // If you want to be extra cautious, you can wipe these AFTER setOnSucceeded / setOnFailed,
+            // but the UI fields are already cleared there.
+            java.util.Arrays.fill(confirmPassword, '\0'); // optional
+            // (pwdForWorker is wiped inside auth.register; see next section)
         }
     }
 
+
     @FXML
     private void onGoLogin() {
-        // Switch to login screen
         UiRouter.showLogin((Stage) emailField.getScene().getWindow());
     }
 }

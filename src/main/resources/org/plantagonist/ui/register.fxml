@@ -13,6 +13,11 @@
 
 <AnchorPane prefHeight="547.0" prefWidth="407.0" styleClass="app-root" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.plantagonist.ui.RegisterController">
     <children>
+        <ImageView fitHeight="593.0" fitWidth="433.0" layoutY="2.0" opacity="0.18" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../../../../../../../../Downloads/annie-spratt-hX_hf2lPpUU-unsplash.jpg" />
+            </image>
+        </ImageView>
         <VBox alignment="CENTER" spacing="20" AnchorPane.bottomAnchor="40" AnchorPane.leftAnchor="40" AnchorPane.rightAnchor="40" AnchorPane.topAnchor="40">
             <!-- Header -->
             <VBox alignment="CENTER" spacing="8">
@@ -38,10 +43,6 @@
             <!-- Error message -->
             <Label fx:id="errorLabel" maxWidth="300" style="-fx-text-alignment: center; -fx-wrap-text: true;" styleClass="muted" />
         </VBox>
-      <ImageView fitHeight="593.0" fitWidth="433.0" layoutY="2.0" opacity="0.18" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../../../../../../../Downloads/annie-spratt-hX_hf2lPpUU-unsplash.jpg" />
-         </image>
-      </ImageView>
+
     </children>
 </AnchorPane>

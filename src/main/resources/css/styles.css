@@ -453,8 +453,6 @@
     -fx-padding: 6 10;
 }
 
-<<<<<<< HEAD
-/* SETTINGS PAGE SPECIFIC */
 .settings-container {
     -fx-background-color: -color-bg; /* Dark background */
     -fx-padding: 20px;
@@ -489,7 +487,7 @@
     -fx-background-color: -color-surface;
     -fx-text-fill: -color-text;
 }
-=======
+
 /* =========
    CARE LOG SPECIFIC STYLES
    ========= */
@@ -637,7 +635,7 @@
     -fx-padding: 40;
     -fx-alignment: center;
 }
->>>>>>> 9219741 (added working supply and carelog page)
+
 
 
 /* === Force white text in all TableViews (cells + headers + selection) === */
