@@ -638,3 +638,38 @@
     -fx-alignment: center;
 }
 >>>>>>> 9219741 (added working supply and carelog page)
+
+
+/* === Force white text in all TableViews (cells + headers + selection) === */
+
+/* Body cells */
+.table-view .cell,
+.table-view .cell .text {
+    -fx-text-fill: white !important;
+    -fx-fill: white !important; /* for Text nodes inside cells */
+}
+
+/* Column headers */
+.table-view .column-header,
+.table-view .column-header .label {
+    -fx-text-fill: white !important;
+}
+
+/* Selected rows (override selection colors that flip text) */
+.table-row-cell:filled:selected .cell,
+.table-row-cell:filled:selected .cell .text,
+.table-view:focused .table-row-cell:filled:selected .text {
+    -fx-text-fill: white !important;
+    -fx-fill: white !important;
+}
+
+/* Placeholder text ("No content") */
+.table-view .placeholder .label {
+    -fx-text-fill: white !important;
+}
+.table-view.card .cell,
+.table-view.card .cell .text,
+.table-view.card .column-header .label {
+    -fx-text-fill: white !important;
+    -fx-fill: white !important;
+}
