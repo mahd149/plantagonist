@@ -1,41 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
-<?import javafx.geometry.Insets?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/20" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="org.plantagonist.ui.RegisterController" prefWidth="400" prefHeight="600"
-            styleClass="app-root">
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="547.0" prefWidth="407.0" styleClass="app-root" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.plantagonist.ui.RegisterController">
     <children>
-        <VBox spacing="20" alignment="CENTER" AnchorPane.leftAnchor="40" AnchorPane.rightAnchor="40"
-              AnchorPane.topAnchor="40" AnchorPane.bottomAnchor="40">
+        <ImageView fitHeight="593.0" fitWidth="433.0" layoutY="2.0" opacity="0.18" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../../../../../../../../Downloads/annie-spratt-hX_hf2lPpUU-unsplash.jpg" />
+            </image>
+        </ImageView>
+        <VBox alignment="CENTER" spacing="20" AnchorPane.bottomAnchor="40" AnchorPane.leftAnchor="40" AnchorPane.rightAnchor="40" AnchorPane.topAnchor="40">
             <!-- Header -->
-            <VBox spacing="8" alignment="CENTER">
-                <Label text="🌱" style="-fx-font-size: 32px;"/>
-                <Label text="Create Account" styleClass="h1" style="-fx-font-size: 28px;"/>
-                <Label text="Join the Plantagonist community" styleClass="subtle" style="-fx-font-size: 14px;"/>
+            <VBox alignment="CENTER" spacing="8">
+                <Label style="-fx-font-size: 32px;" text="🌱" />
+                <Label style="-fx-font-size: 28px;" styleClass="h1" text="Create Account" />
+                <Label style="-fx-font-size: 14px;" styleClass="subtle" text="Join the Plantagonist community" />
             </VBox>
 
             <!-- Form -->
-            <VBox spacing="16" styleClass="card" style="-fx-padding: 24; -fx-background-color: -color-elev-1;">
-                <TextField fx:id="emailField" promptText="Email" styleClass="text-field"/>
-                <TextField fx:id="usernameField" promptText="Username" styleClass="text-field"/>
-                <PasswordField fx:id="passwordField" promptText="Password" styleClass="password-field"/>
-                <PasswordField fx:id="confirmPasswordField" promptText="Confirm Password" styleClass="password-field"/>
+            <VBox spacing="16" style="-fx-padding: 24; -fx-background-color: -color-elev-1;" styleClass="card">
+                <TextField fx:id="emailField" promptText="Email" styleClass="text-field" />
+                <TextField fx:id="usernameField" promptText="Username" styleClass="text-field" />
+                <PasswordField fx:id="passwordField" promptText="Password" styleClass="password-field" />
+                <PasswordField fx:id="confirmPasswordField" promptText="Confirm Password" styleClass="password-field" />
 
-                <Button text="Create Account" onAction="#onRegister" styleClass="accent-btn pill"
-                        style="-fx-font-size: 14px; -fx-padding: 10 20;"/>
+                <Button onAction="#onRegister" style="-fx-font-size: 14px; -fx-padding: 10 20;" styleClass="accent-btn pill" text="Create Account" />
 
-                <Separator style="-fx-padding: 8 0;"/>
+                <Separator style="-fx-padding: 8 0;" />
 
-                <Hyperlink text="Already have an account? Login here" onAction="#onGoLogin"
-                           styleClass="subtle" style="-fx-font-size: 13px; -fx-text-alignment: center;"/>
+                <Hyperlink onAction="#onGoLogin" style="-fx-font-size: 13px; -fx-text-alignment: center;" styleClass="subtle" text="Already have an account? Login here" />
             </VBox>
 
             <!-- Error message -->
-            <Label fx:id="errorLabel" styleClass="muted" style="-fx-text-alignment: center; -fx-wrap-text: true;"
-                   maxWidth="300"/>
+            <Label fx:id="errorLabel" maxWidth="300" style="-fx-text-alignment: center; -fx-wrap-text: true;" styleClass="muted" />
         </VBox>
+
     </children>
 </AnchorPane>

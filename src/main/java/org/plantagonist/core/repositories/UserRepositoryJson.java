@@ -21,7 +21,7 @@ public class UserRepositoryJson implements UserStore {
     private final Path file;
     private final Gson gson = new GsonBuilder()
             .setPrettyPrinting()
-            .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX")
+//
             .create();
     private final ReentrantReadWriteLock rw = new ReentrantReadWriteLock();
 

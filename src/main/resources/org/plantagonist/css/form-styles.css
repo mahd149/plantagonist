@@ -1,0 +1,162 @@
+/* ---------- Form/Dialog Theme (form-styles.css) ---------- */
+
+.dialog-pane {
+    -fx-background-color: #171b1c;
+    -fx-background-radius: 16;
+    -fx-border-color: #2e7d50;
+    -fx-border-radius: 16;
+    -fx-padding: 0;
+}
+
+/* Header */
+.dialog-pane:header .header-panel {
+    -fx-background-color: linear-gradient(to right, #1A4D2E, #23633C);
+    -fx-background-radius: 16 16 0 0;
+    -fx-padding: 14 16;
+}
+.dialog-pane:header .header-panel .label {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+}
+
+/* Content */
+.dialog-pane .content.label,
+.dialog-pane .content {
+    -fx-padding: 16;
+    -fx-text-fill: #e7f3ea;
+}
+
+/* Labels for form fields */
+.dialog-pane .label {
+    -fx-text-fill: #c8e6d0;
+    -fx-font-size: 13px;
+}
+
+/* Buttons */
+.dialog-pane .button-bar .button {
+    -fx-background-radius: 999;
+    -fx-padding: 8 16;
+    -fx-font-weight: bold;
+}
+.dialog-pane .button-bar .button:default {
+    -fx-background-color: #2e7d50;
+    -fx-text-fill: white;
+}
+.dialog-pane .button-bar .button:cancel {
+    -fx-background-color: rgba(255,255,255,0.08);
+    -fx-text-fill: #e7f3ea;
+}
+
+/* Inputs */
+.dialog-pane .combo-box-base,
+.dialog-pane .text-input,
+.dialog-pane .date-picker {
+    -fx-background-color: #1f2527;
+    -fx-text-fill: #e7f3ea;
+    -fx-background-radius: 10;
+    -fx-padding: 8 10;
+    -fx-prompt-text-fill: #9fb3a7;
+    -fx-border-color: rgba(255,255,255,0.06);
+    -fx-border-radius: 10;
+}
+
+/* ComboBox dropdown */
+.dialog-pane .combo-box-base .list-view {
+    -fx-background-color: #1f2527;
+    -fx-background-radius: 10;
+    -fx-border-color: rgba(255,255,255,0.1);
+    -fx-border-radius: 10;
+}
+
+.dialog-pane .combo-box-base .list-cell {
+    -fx-background-color: #1f2527;
+    -fx-text-fill: #e7f3ea;
+    -fx-padding: 8 10;
+}
+
+.dialog-pane .combo-box-base .list-cell:filled:hover,
+.dialog-pane .combo-box-base .list-cell:filled:selected {
+    -fx-background-color: #2e7d50;
+    -fx-text-fill: white;
+}
+
+/* DatePicker - FORCE dark theme on the popup */
+.date-picker-popup > * {
+    -fx-background-color: #1f2527 !important;
+}
+
+.date-picker-popup .month-year-pane {
+    -fx-background-color: #23633C !important;
+}
+
+.date-picker-popup .month-year-pane .label {
+    -fx-text-fill: white !important;
+}
+
+.date-picker-popup .spinner .button {
+    -fx-background-color: transparent !important;
+    -fx-text-fill: #e7f3ea !important;
+}
+
+.date-picker-popup .calendar-grid {
+    -fx-background-color: #1f2527 !important;
+}
+
+.date-picker-popup .day-cell {
+    -fx-background-color: transparent !important;
+    -fx-text-fill: #e7f3ea !important;
+    -fx-border-color: transparent !important;
+}
+
+.date-picker-popup .day-cell:hover {
+    -fx-background-color: #2e7d50 !important;
+    -fx-text-fill: white !important;
+}
+
+.date-picker-popup .day-cell:selected {
+    -fx-background-color: #2e7d50 !important;
+    -fx-text-fill: white !important;
+}
+
+.date-picker-popup .day-cell:today {
+    -fx-background-color: #3a8c5f !important;
+    -fx-text-fill: white !important;
+}
+
+.date-picker-popup .week-number-cell {
+    -fx-text-fill: #9fb3a7 !important;
+}
+
+/* Target the specific DatePicker in the dialog */
+.dialog-pane .date-picker-popup {
+    -fx-background-color: #1f2527 !important;
+    -fx-border-color: rgba(255,255,255,0.1) !important;
+}
+
+.dialog-pane .date-picker-popup .month-year-pane {
+    -fx-background-color: #23633C !important;
+}
+
+.dialog-pane .date-picker-popup .month-year-pane .label {
+    -fx-text-fill: white !important;
+}
+
+.dialog-pane .date-picker-popup .calendar-grid {
+    -fx-background-color: #1f2527 !important;
+}
+
+.dialog-pane .date-picker-popup .day-cell {
+    -fx-background-color: transparent !important;
+    -fx-text-fill: #e7f3ea !important;
+}
+
+.dialog-pane .date-picker-popup .day-cell:hover {
+    -fx-background-color: #2e7d50 !important;
+    -fx-text-fill: white !important;
+}
+
+.dialog-pane .date-picker-popup .day-cell:selected {
+    -fx-background-color: #2e7d50 !important;
+    -fx-text-fill: white !important;
+}

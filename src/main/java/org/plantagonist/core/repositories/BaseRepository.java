@@ -3,6 +3,7 @@ package org.plantagonist.core.repositories;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
 import org.bson.conversions.Bson;
+import org.bson.types.ObjectId;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +21,10 @@ public class BaseRepository<T> {
      */
     protected Bson idFilter(String id) {
         // return Filters.or(Filters.eq("_id", id), Filters.eq("id", id)); // <-- use during migration
+        return Filters.eq("_id", id);
+    }
+
+    protected Bson idFilter(ObjectId id) {
         return Filters.eq("_id", id);
     }
 

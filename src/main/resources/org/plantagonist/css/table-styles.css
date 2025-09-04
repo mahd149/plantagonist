@@ -1,0 +1,50 @@
+/* ---------- Table and Notification Theme ---------- */
+
+.table-view {
+    -fx-background-color: #171b1c;
+    -fx-control-inner-background: #1f2527;
+    -fx-text-fill: #e7f3ea;
+    -fx-table-cell-border-color: rgba(255,255,255,0.06);
+}
+
+.table-view .column-header-background {
+    -fx-background-color: linear-gradient(to bottom, #1f2527, #171b1c);
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: #e7f3ea;
+    -fx-font-weight: bold;
+}
+
+.table-row-cell:filled:selected {
+    -fx-background-color: #2e7d50;
+    -fx-text-fill: white;
+}
+
+/* ---------- Notifications ---------- */
+.notification-label {
+    -fx-text-fill: #ff6b6b;
+    -fx-font-weight: bold;
+}
+
+/* ---------- Inline Action Buttons ---------- */
+.action-btn {
+    -fx-font-size: 11px;
+    -fx-padding: 4 8;
+}
+
+.action-btn.done {
+    -fx-background-color: linear-gradient(to bottom, #78d28a, #4ca86a);
+    -fx-text-fill: #0f1213;
+    -fx-background-radius: 999;
+}
+.action-btn.miss {
+    -fx-background-color: linear-gradient(to bottom, #ff6b6b, #d64545);
+    -fx-text-fill: white;
+    -fx-background-radius: 999;
+}
+.action-btn.cancel {
+    -fx-background-color: linear-gradient(to bottom, #a0a0a0, #666);
+    -fx-text-fill: white;
+    -fx-background-radius: 999;
+}
