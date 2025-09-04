@@ -28,19 +28,12 @@ It promotes sustainable urban living and biodiversity by aligning with UN SDG 15
 
 ---
 
-## 📂 Project Structure
-
-`plantagonist/  ├── src/main/java/org/plantagonist/  │   ├── core/        # Models, repositories, services  │   ├── ui/          # JavaFX controllers  │   └── App.java     # Entry point  ├── src/main/resources/org/plantagonist/ui/  │   ├── *.fxml       # UI layouts  │   └── css/         # Stylesheets  ├── data/  │   └── plantagonist.json   # Local storage file  └── README.md`
-
----
-
-## 🚀 Getting Started
-
-### Prerequisites
+## Prerequisites
 
 - Install Java JDK 24 (Liberica recommended).
 - Install Maven.
 - Install JavaFX SDK.
+
 ---
 
 ## 🗂️ Data Storage
