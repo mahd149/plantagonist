@@ -1,4 +1,3 @@
----
 # 🌱 Plantagonist
 
 Plantagonist is a desktop application built with Java & JavaFX to help houseplant enthusiasts care for their plants consistently.  
