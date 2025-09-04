@@ -1,8 +1,9 @@
 ---
 # 🌱 Plantagonist
 
-Plantagonist is a desktop application built with **Java & JavaFX** to help houseplant enthusiasts care for their plants consistently.  
-It promotes sustainable urban living and biodiversity by aligning with **UN SDG 15: Life on Land** and **SDG 3: Good Health and Well-being**.
+Plantagonist is a desktop application built with Java & JavaFX to help houseplant enthusiasts care for their plants consistently.  
+It promotes sustainable urban living and biodiversity by aligning with UN SDG 15: Life on Land and SDG 3: Good Health and Well-being.
+
 ---
 
 ## ✨ Features
