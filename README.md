@@ -21,12 +21,15 @@ Plantagonist is a desktop application built with Java and JavaFX designed for pl
 
 **Dashboard**
 ![Dashboard](dashboard.png)
+
 **Add Plant**
 ![AddPlant](addPlant.png)
+
 **Care Log**
-![]()
+![CareLog](carelog.png)
+
 **Supplies**
-![]()
+![Supplies](supplies.png)
 
 ---
 ## 🛠️ Tech Stack
