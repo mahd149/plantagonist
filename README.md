@@ -14,7 +14,19 @@ Plantagonist is a desktop application built with Java and JavaFX designed for pl
 - Supply Tracking: Monitor gardening supplies.
 - Weather-Aware Suggestions: Use external weather data to optimize plant care.
 - User Authentication: Secure login and personalized plant collections.
-  
+
+---
+
+## 📸 Glimpse
+
+**Dashboard**
+![Dashboard](dashboard.png)
+**Add Plant**
+![AddPlant](addPlant.png)
+**Care Log**
+![]()
+**Supplies**
+![]()
 
 ---
 ## 🛠️ Tech Stack
